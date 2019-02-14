@@ -17,57 +17,39 @@ const {
 
 const semver = require('semver');
 const chalk = require('chalk');
-const printChangesHeader = require('../printChangesHeader');
-
-
-
-
-
-const updateConfigs = require('../updateConfigs');
-
 const simpleGit = require('simple-git')();
+
+
+const printChangesHeader = require('../printChangesHeader');
+const updateConfigs = require('../updateConfigs');
+const getChangelog = require('../getChangelog');
+const getNextRelease = require('../getNextRelease');
+
 
 const dist = grunt => {
 
-	grunt.registerTask( 'dist', 'sub task', function(){
+	grunt.registerTask( 'dist', 'Distribute a new version', function(){
 
 		const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
-
-
-
-		grunt.log.writeln( '' );
-		console.log( 'debug pkg', pkg );		// ??? debug
-		grunt.log.writeln( '' );
-		grunt.log.writeln( '' );
-		grunt.log.writeln( '' );
-
-
-
-
 
 		grunt.log.writeln( '' );
 		grunt.log.writeln( chalk.cyan( 'Starting dist task from version ' ) + pkg.version );
 		grunt.log.writeln( '' );
 
 		// get changelog
-		let changelog;
-		try {
-			changelog = parser( grunt.file.read( 'CHANGELOG.md', 'UTF-8') );
-		}
-		catch( err ) {
-			changelog = new Changelog( pkg.displayName );
-		}
+		const changelog = getChangelog( grunt, pkg );
 
 		// get nextRelease
-		const nextReleaseFile = '.gwde_nextRelease.json';
-		const emptyRelease = { changes: [] };
-		let nextRelease;
-		try {
-			nextRelease = grunt.file.readJSON( nextReleaseFile );
-		}
-		catch( err ) {
-			nextRelease = emptyRelease;
-		}
+		// const nextReleaseFile = '.gwde_nextRelease.json';
+		// const emptyRelease = { changes: [] };
+		// let nextRelease;
+		const nextRelease = getNextRelease( grunt );
+		// try {
+		// 	nextRelease = grunt.file.readJSON( nextReleaseFile );
+		// }
+		// catch( err ) {
+		// 	nextRelease = emptyRelease;
+		// }
 
 		const done = this.async();
 
@@ -119,6 +101,7 @@ const dist = grunt => {
 				{
 					type: 'toggle',
 					name: 'proceed',
+					initial: true,
 					message: chalk.yellow( 'Proceed dist task?' ),
 				},
 			] ).then( answers => answers.proceed ? resolve( distInfo ) : reject() ).catch( e => {
@@ -168,6 +151,10 @@ const dist = grunt => {
 		};
 
 		const resetNextReleaseFile = props => {
+
+			const nextReleaseFile = '.gwde_nextRelease.json';
+			const emptyRelease = { changes: [] };
+
 			grunt.file.write( nextReleaseFile, JSON.stringify( emptyRelease, null, 2 ) );
 			grunt.log.writeln( '' );
 			grunt.log.writeln( chalk.green( 'Reset changes in ' + nextReleaseFile ) );

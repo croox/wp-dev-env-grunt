@@ -4,12 +4,12 @@
 /*
 
 # include some root files
+!.eslintrc.json
 !.gitignore
+!README.md
 !index.js
 !package.json
-!.eslintrc.json
 !CHANGELOG.md
-!README.md
 
 # include dir grunt
 !/grunt

@@ -20,17 +20,17 @@ const getSyncSource = grunt => {
 		syncSource = path.resolve('test_build') + path.sep;
 
 	} else if ( version === 'trunk'){
-		syncSource = path.resolve('dist','trunk') + path.sep;
+		syncSource = path.resolve( 'dist', 'trunk' ) + path.sep;
 
 	} else if ( /((\d)\.(\d)\.(\d))/.test(version)){
-		syncSource = path.resolve('dist','tags',version) + path.sep;
-
-		if (! grunt.file.exists(syncSource)){
+		syncSource = path.resolve( 'dist', 'tags', version ) + path.sep;
+		if ( ! grunt.file.exists( syncSource ) )
 			grunt.warn('"' + version + '" is no valid version');
-		}
+
 	} else {
 		grunt.warn('"' + version + '" is no valid version');
 	}
+
 	return syncSource;
 }
 
@@ -42,14 +42,13 @@ const getSyncSource = grunt => {
 const sync = grunt => {
 
 
-	grunt.registerTask( 'sync', 'sync to local wp install', function( wp_installs, version ){
-
+	grunt.registerTask( 'sync', 'sync to wp_install(s)', function( wp_installs, version ){
 
 		// wp_installs
 		if ( ! get( grunt.option( 'sync' ), ['wp_installs'], false ) ) {
 			// check if args
 			if ( ! wp_installs || ! wp_installs.length || wp_installs.length === 0 ) {
-				return grunt.warn("no wp_install specified. sync skipped");
+				return grunt.log.writeln( 'no wp_install specified. sync skipped' ).yellow;
 			} else {
 				grunt.option( 'sync', {
 					...grunt.option( 'sync' ),
@@ -57,7 +56,6 @@ const sync = grunt => {
 				} );
 			}
 		}
-
 
 		// version
 		if ( ! get( grunt.option( 'sync' ), ['version'], false ) ) {
@@ -67,12 +65,7 @@ const sync = grunt => {
 			} );
 		}
 
-
-
-		var syncSource = getSyncSource( grunt );
-
-
-
+		const syncSource = getSyncSource( grunt );
 
 		const done = this.async();
 		const promises = [...get( grunt.option( 'sync' ), ['wp_installs'], [] )].map( wp_install => {

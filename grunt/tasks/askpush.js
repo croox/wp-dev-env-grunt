@@ -3,7 +3,7 @@ const chalk = require('chalk');
 
 const askpush = grunt => {
 
-	grunt.registerTask( 'askpush', 'sub task', function( type, message ) {
+	grunt.registerTask( 'askpush', 'sub task: used by dist, ask to git push', function( type, message ) {
 
 		grunt.log.writeln( '' );
 		grunt.log.writeln( chalk.cyan( 'Hurray, all done!' ) );

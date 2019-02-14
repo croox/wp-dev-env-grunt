@@ -1,16 +1,11 @@
 
 const path = require('path');
 
-
 const pot = grunt => {
 
-	// const cwd = path.resolve( 'node_modules/wp-dev-env-grunt/grunt/config' );
-
-	const handles = require( path.resolve( '.gwde_handles.json' ) );
-
+	const handles = grunt.file.expand( { cwd: 'src/js/' }, ['*.js','*.jsx'] ).map( file => path.basename( file, path.extname( file ) ) );
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
-
 
 	const options = {
 		text_domain: 'text_domain',		// Currently it is only used to generate the destination file name: [text-domain].pot	see: https://github.com/stephenharris/grunt-pot#text_domain
@@ -47,36 +42,34 @@ const pot = grunt => {
 				expand: true,
 				src: [
 					'src/**/*.php',
-					grunt.option( 'pattern' ).exclude,
+					...grunt.option( 'pattern' ).exclude,
 				],
 			} ],
 		},
 	};
 
 	// add subtask for each js handle to config
-	if ( handles && handles.length ) {
-		[...handles.js].map( handle => {
+	[...handles].map( handle => {
 
-			config[handle] = {
-				options: {
-					...options,
-					language: 'JavaScript',
-					text_domain: pkg.textDomain + '-LOCALE-' + handle,
-				},
-				files: [{
-					expand: true,
-					src: [
-						'src/js/' + handle + '.js',
-						'src/js/' + handle + '.jsx',
-						'src/js/' + handle + '/**/*.js',
-						'src/js/' + handle + '/**/*.jsx',
-						grunt.option( 'pattern' ).exclude,
-					],
-				}],
-			};
+		config[handle] = {
+			options: {
+				...options,
+				language: 'JavaScript',
+				text_domain: pkg.textDomain + '-LOCALE-' + handle,
+			},
+			files: [{
+				expand: true,
+				src: [
+					'src/js/' + handle + '.js',
+					'src/js/' + handle + '.jsx',
+					'src/js/' + handle + '/**/*.js',
+					'src/js/' + handle + '/**/*.jsx',
+					...grunt.option( 'pattern' ).exclude,
+				],
+			}],
+		};
 
-		} );
-	}
+	} );
 
 	grunt.config( 'pot', config );
 

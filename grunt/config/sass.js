@@ -1,5 +1,8 @@
+const path = require('path');
 
 const sass = grunt => {
+
+	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
 	const options = {
 		// // require: [
@@ -28,38 +31,17 @@ const sass = grunt => {
 	grunt.config( 'sass', {
 		options: options,
 
-		// plugin only
 		all: {
 			files: [{
 				expand: true,
-				cwd: 'src/sass',
+				cwd: 'src/scss',
 				src: [
 					'*.scss',
+					...( 'theme' === pkg.projectType ? ['!style.scss'] : [] ),
 				],
 				dest: grunt.option( 'destination' ) + '/css',
-				ext: '.min.css'
+				ext: '.min.css',
 			}],
-		},
-
-		// theme only
-		other: {
-			files: [{
-				expand: true,
-				cwd: 'src/sass',
-				src: [
-					'*.scss',
-					'!style.scss',
-				],
-				dest: grunt.option( 'destination' ) + '/css',
-				ext: '.min.css'
-			}],
-		},
-
-		// theme only
-		main: {
-			files: {
-				[grunt.option( 'destination' ) + '/style.css']: 'src/sass/style.scss',
-			},
 		},
 
 	} );

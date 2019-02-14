@@ -6,7 +6,7 @@ const eslint = grunt => {
 			src: [
 				'src/js/**/*.js',
 				'src/js/**/*.jsx',
-				grunt.option( 'pattern' ).exclude,
+				...grunt.option( 'pattern' ).exclude,
 			]
 		},
 
@@ -14,7 +14,7 @@ const eslint = grunt => {
 			src: [
 				grunt.option( 'destination' ) + '/js/**/*.js',
 				grunt.option( 'destination' ) + '/js/**/*.jsx',
-				grunt.option( 'pattern' ).exclude,
+				...grunt.option( 'pattern' ).exclude,
 			]
 		},
 	} );

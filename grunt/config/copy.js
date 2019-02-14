@@ -1,5 +1,4 @@
 
-
 const path = require('path');
 
 const copy = grunt => {
@@ -8,25 +7,17 @@ const copy = grunt => {
 
 	grunt.config( 'copy', {
 
-		// ???
-		// vendor: {
-		// 	expand: true,
-		// 	cwd: 'vendor/',
-		// 	src: ['**/*', '<%= pattern.global_exclude %>'],
-		// 	dest: '<%= dest_path %>/vendor/'
-		// },
-
 		images: {
 			expand: true,
 			cwd: 'src/images/',
-			src: ['**/*', grunt.option( 'pattern' ).exclude ],
+			src: ['**/*', ...grunt.option( 'pattern' ).exclude ],
 			dest: grunt.option( 'destination' ) + '/images/',
 		},
 
 		fonts: {
 			expand: true,
 			cwd: 'src/fonts/',
-			src: ['**/*', grunt.option( 'pattern' ).exclude ],
+			src: ['**/*', ...grunt.option( 'pattern' ).exclude ],
 			dest: grunt.option( 'destination' ) + '/fonts/',
 		},
 
@@ -37,7 +28,7 @@ const copy = grunt => {
 				'**/*',
 				...( 'theme' === pkg.projectType ? ['!functions.php'] : [] ),
 				...( 'plugin' === pkg.projectType ? ['!' + pkg.name + '.php'] : [] ),
-				grunt.option( 'pattern' ).exclude,
+				...grunt.option( 'pattern' ).exclude,
 			],
 			dest: grunt.option( 'destination' ) + '/',
 		},
@@ -47,7 +38,7 @@ const copy = grunt => {
 			cwd: 'dist/trunk/',
 			src: [
 				'**/*',
-				grunt.option( 'pattern' ).exclude,
+				...grunt.option( 'pattern' ).exclude,
 			],
 			dest: 'dist/tags/' + pkg.version + '/',
 		},

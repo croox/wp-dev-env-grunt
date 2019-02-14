@@ -1,4 +1,5 @@
 const { prompt } = require('enquirer');
+const path = require('path');
 const {
 	filter,
 	isFunction,
@@ -8,21 +9,21 @@ const {
 const chalk = require('chalk');
 
 const printChangesHeader = require('../printChangesHeader');
+const getNextRelease = require('../getNextRelease');
 
 
 const addchange = grunt => {
 
-	grunt.registerTask( 'addchange', 'sub task', function( type, message ) {
+	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
-		const nextReleasePath = '.gwde_nextRelease.json';
-		const emptyRelease = { changes: [] };
-		let nextRelease;
-		try {
-			nextRelease = grunt.file.readJSON( nextReleasePath );
-		}
-		catch( err ) {
-			nextRelease = emptyRelease;
-		}
+	grunt.registerTask( 'addchange', 'Record a change', function( type, message ) {
+
+		const nextRelease = getNextRelease( grunt );
+
+		grunt.log.writeln( '' );
+		grunt.log.writeln( 'Changes are used to generate the CHANGELOG.md and commit/tag messages on dist' + chalk.gray( 'ribution' ) + '. The CHANGELOG.md will be appended to the ' + pkg.projectType + '-readme as well.' ),
+		grunt.log.writeln( 'The format is based on ' + chalk.italic( 'Keep a Changelog' ) + ', see: ' + chalk.italic( 'http://keepachangelog.com/' ) + '.' );
+		grunt.log.writeln( '' );
 
 		printChangesHeader( grunt, nextRelease );
 
@@ -105,7 +106,7 @@ const addchange = grunt => {
 			} );
 
 		} ).then( newNextRelease => {
-			grunt.file.write( nextReleasePath , JSON.stringify( newNextRelease, null, 2) );
+			grunt.file.write( '.gwde_nextRelease.json' , JSON.stringify( newNextRelease, null, 2) );
 			done.apply()
 		} ).catch( e => {
 			grunt.warn( 'addchange... some error or canceled by user' );

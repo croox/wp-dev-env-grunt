@@ -35,33 +35,61 @@ const concat = grunt => {
 				].join( '\n' ),
 			},
 			src: [
-				'src/readme/readme.txt',
+				'src/root_files/readme.txt',
 			],
 		},
 
-		plugin_main_file: {
-			options: {
-				banner: [
-					'<?php',
-					'/*',
-					'	Plugin Name: ' + pkg.displayName,
-					'	Plugin URI: ' + pkg.uri,
-					'	Description: ' + pkg.description,
-					'	Version: ' + pkg.version,
-					'	Author: ' + pkg.author,
-					'	Author URI: ' + pkg.authorUri,
-					'	License: ' + pkg.license,
-					'	License URI: ' + pkg.licenseUri,
-					'	Text Domain: ' + pkg.textDomain,
-					'	Domain Path: ' + pkg.domainPath,
-					'	Tags: ' + pkg.tags,
-					'	GitHub Plugin URI: ' + pkg.repositoryUri,
-					'	Release Asset: true',
-					'*/',
-					'?>',
-				].join( '\n' ),
+		...( 'plugin' === pkg.projectType && {
+			plugin_main_file: {
+				options: {
+					banner: [
+						'<?php',
+						'/*',
+						'	Plugin Name: ' + pkg.displayName,
+						'	Plugin URI: ' + pkg.uri,
+						'	Description: ' + pkg.description,
+						'	Version: ' + pkg.version,
+						'	Author: ' + pkg.author,
+						'	Author URI: ' + pkg.authorUri,
+						'	License: ' + pkg.license,
+						'	License URI: ' + pkg.licenseUri,
+						'	Text Domain: ' + pkg.textDomain,
+						'	Domain Path: ' + pkg.domainPath,
+						'	Tags: ' + pkg.tags,
+						'	GitHub Plugin URI: ' + pkg.repositoryUri,
+						'	Release Asset: true',
+						'*/',
+						'?>',
+					].join( '\n' ),
+				},
 			},
-		},
+		} ),
+
+		...( 'theme' === pkg.projectType && {
+			style: {
+				options: {
+					banner: [
+						'/*	',
+						'	Theme Name: ' + pkg.displayName,
+						'	Theme URI: ' + pkg.uri,
+						...( pkg.template ? ['	Template: ' + pkg.template] : [] ),
+						'	Author: ' + pkg.author,
+						'	Author URI: ' + pkg.authorUri,
+						'	Description: ' + pkg.description,
+						'	Version: ' + pkg.version,
+						'	License: ' + pkg.license,
+						'	License URI: ' + pkg.licenseUri,
+						'	Text Domain: ' + pkg.textDomain,
+						'	Tags: ' + pkg.tags,
+						'	Domain Path: /languages',
+						'',
+						'*/',
+						'',
+						'',
+					].join( '\n' ),
+				},
+			},
+		} ),
 
 
 	};
@@ -69,8 +97,6 @@ const concat = grunt => {
 
 
 	grunt.config( 'concat', {
-
-
 
 		readme: {
 			...config.readme,
@@ -82,44 +108,31 @@ const concat = grunt => {
 			dest: grunt.option( 'destination' ) + '/README.md',
 		},
 
-		plugin_main_file: {
-			...config.plugin_main_file,
-			src: grunt.option( 'destination' ) + '/' + pkg.name + '.php',
-			dest: grunt.option( 'destination' ) + '/' + pkg.name + '.php',
-		},
+		...( 'plugin' === pkg.projectType && {
+			plugin_main_file: {
+				...config.plugin_main_file,
+				src: grunt.option( 'destination' ) + '/' + pkg.name + '.php',
+				dest: grunt.option( 'destination' ) + '/' + pkg.name + '.php',
+			},
+			dummy_plugin_file: {
+				...config.plugin_main_file,
+				src: pkg.name + '.php',
+				dest: pkg.name + '.php',
+			},
+		} ),
 
-		dummy_plugin_main_file: {
-			...config.plugin_main_file,
-			src: pkg.name + '.php',
-			dest: pkg.name + '.php',
-		},
-
-		// // theme
-		// styleBanner: {
-		// 	options: {
-		// 		banner: [
-		// 			'/*	',
-		// 			'	Theme Name: ' + pkg.displayName,
-		// 			'	Theme URI: ' + pkg.uri,
-		// 			'	Author: ' + pkg.author,
-		// 			'	Author URI: ' + pkg.authorUri,
-		// 			'	Description: ' + pkg.description,
-		// 			'	Version: ' + pkg.version,
-		// 			'	License: ' + pkg.license,
-		// 			'	License URI: ' + pkg.licenseUri,
-		// 			'	Text Domain: ' + pkg.textDomain,
-		// 			'	Tags: ' + pkg.tags,
-		// 			'	Domain Path: /languages',
-		// 			'',
-		// 			'*/',
-		// 			'',
-		// 			'',
-		// 		].join( '\n' ),
-		// 	},
-		// 	src: grunt.option( 'destination' ) + '/style.css',
-		// 	dest: grunt.option( 'destination' ) + '/style.css'
-		// },
-
+		...( 'theme' === pkg.projectType && {
+			style: {
+				...config.style,
+				src: grunt.option( 'destination' ) + '/style.css',
+				dest: grunt.option( 'destination' ) + '/style.css'
+			},
+			dummy_theme_style: {
+				...config.style,
+				src: 'style.css',
+				dest: 'style.css'
+			},
+		} ),
 
 	} );
 
