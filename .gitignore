@@ -10,6 +10,7 @@
 !index.js
 !package.json
 !CHANGELOG.md
+!package-lock.json
 
 # include dir grunt
 !/grunt

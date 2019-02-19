@@ -30,6 +30,7 @@ const startGrunt = grunt => {
 	// load tasks
 	require('time-grunt')(grunt);
 	loadNpmTasks( grunt, 'grunt-browserify' );
+	loadNpmTasks( grunt, 'grunt-cleanempty' );
 	loadNpmTasks( grunt, 'grunt-contrib-clean' );
 	loadNpmTasks( grunt, 'grunt-contrib-compress' );
 	loadNpmTasks( grunt, 'grunt-contrib-concat' );
@@ -56,6 +57,24 @@ const startGrunt = grunt => {
 			'!**/*~',
 			'!*.xcf',
 			'!**/*.xcf',
+		],
+		excludeFromRoot: [
+			'!inc',
+			'!inc/**/*',
+			'!images',
+			'!images/**/*',
+			'!fonts',
+			'!fonts/**/*',
+			'!js',
+			'!js/**/*',
+			'!scss',
+			'!scss/**/*',
+			'!languages',
+			'!languages/**/*',
+			...( 'theme' === pkg.projectType ? [
+				'!templates',
+				'!templates/**/*',
+			] : [] ),
 		],
 	} );
 	// set option compress

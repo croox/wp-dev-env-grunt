@@ -21,13 +21,16 @@ const copy = grunt => {
 			dest: grunt.option( 'destination' ) + '/fonts/',
 		},
 
-		root_files: {
+		root: {
 			expand: true,
-			cwd: 'src/root_files/',
+			cwd: 'src/',
 			src: [
 				'**/*',
-				...( 'theme' === pkg.projectType ? ['!functions.php'] : [] ),
-				...( 'plugin' === pkg.projectType ? ['!' + pkg.name + '.php'] : [] ),
+				'!src/readme.txt',
+				'!src/readme.txt',
+				'!*.php',
+				'!**/*.php',
+				...grunt.option( 'pattern' ).excludeFromRoot,
 				...grunt.option( 'pattern' ).exclude,
 			],
 			dest: grunt.option( 'destination' ) + '/',

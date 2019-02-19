@@ -21,24 +21,36 @@ const stringReplace = grunt => {
 			}],
 		},
 
-		template_parts: {
+		root: {
 			files: [{
 				expand: true,
-				cwd: 'src/template_parts/',
-				src: ['**/*.php',...grunt.option( 'pattern' ).exclude],
-				dest: grunt.option( 'destination' ) + '/template_parts/',
+				cwd: 'src/',
+				src: [
+					'*.php',
+					'**/*.php',
+					...( 'plugin' === pkg.projectType ? [
+						'!' + pkg.name + '.php',
+					] : [] ),
+					...( 'theme' === pkg.projectType ? [
+						'!functions.php',
+					] : [] ),
+					...grunt.option( 'pattern' ).excludeFromRoot,
+					...grunt.option( 'pattern' ).exclude,
+				],
+
+				dest: grunt.option( 'destination' ) + '/'
 			}],
 		},
 
 		...( 'plugin' === pkg.projectType && {
 			plugin_main_file: {
-				files: { [grunt.option( 'destination' ) + '/' + pkg.name + '.php']:'src/root_files/' + pkg.name + '.php'}
+				files: { [grunt.option( 'destination' ) + '/' + pkg.name + '.php']:'src/' + pkg.name + '.php'}
 			},
 		} ),
 
 		...( 'theme' === pkg.projectType && {
 			functionsPhp: {
-				files: { [grunt.option( 'destination' ) + '/functions.php']:'src/root_files/functions.php' }
+				files: { [grunt.option( 'destination' ) + '/functions.php']:'src/functions.php' }
 			},
 			templates: {
 				files: [{

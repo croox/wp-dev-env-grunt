@@ -11,14 +11,10 @@ const build = grunt => {
 
 		let tasks = [
 			'clean',
+			'copy:root',
+			'string-replace:root',
 			'string-replace:inc_to_dest',
-			'string-replace:template_parts',
-			'create_autoloader:fun',
-			'create_autoloader:post_types_taxs',
-			'create_autoloader:roles_capabilities',
-			'copy:images',
-			'copy:fonts',
-			'copy:root_files',
+			'create_autoloader:inc',
 			'eslint:src',
 			'browserify',
 			'concat:readme',
@@ -51,8 +47,6 @@ const build = grunt => {
 					...tasks,
 					'string-replace:templates',
 					'string-replace:functionsPhp',
-					'create_autoloader:template_functions',
-					'create_autoloader:template_tags',
 					'concat:style',
 					'concat:dummy_theme_style',
 				];
@@ -61,6 +55,7 @@ const build = grunt => {
 
 		tasks = [
 			...tasks,
+			'cleanempty',
 			'sound:bling',
 		];
 

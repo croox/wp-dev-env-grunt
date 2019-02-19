@@ -35,7 +35,7 @@ const concat = grunt => {
 				].join( '\n' ),
 			},
 			src: [
-				'src/root_files/readme.txt',
+				'src/readme.txt',
 			],
 		},
 

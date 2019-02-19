@@ -40,16 +40,45 @@ const watch = grunt => {
 			]
 		},
 
-		root_files: {
-			files: [
-				'src/root_files/**/*',
-				'!src/root_files/readme.txt',
-				...( 'theme' === pkg.projectType ? ['!functions.php'] : [] ),
-				...( 'plugin' === pkg.projectType ? ['!' + pkg.name + '.php'] : [] ),
-				...grunt.option( 'pattern' ).exclude,
-			],
+		root: {
+			files: [ {
+				expand: true,
+				cwd: 'src/',
+				src: [
+					'**/*',
+					'!src/readme.txt',
+					'!src/readme.txt',
+					'!*.php',
+					'!**/*.php',
+					...grunt.option( 'pattern' ).excludeFromRoot,
+					...grunt.option( 'pattern' ).exclude,
+				],
+			} ],
 			tasks: [
-				'copy:root_files',
+				'copy:root',
+				...afterTasks,
+			]
+		},
+
+		root_php: {
+			files: [ {
+				expand: true,
+				cwd: 'src/',
+				src: [
+					'*.php',
+					'**/*.php',
+					...( 'plugin' === pkg.projectType ? [
+						'!' + pkg.name + '.php',
+					] : [] ),
+					...( 'theme' === pkg.projectType ? [
+						'!functions.php',
+					] : [] ),
+					...grunt.option( 'pattern' ).excludeFromRoot,
+					...grunt.option( 'pattern' ).exclude,
+				],
+			} ],
+			tasks: [
+				'string-replace:root',
 				...afterTasks,
 			]
 		},
@@ -61,6 +90,7 @@ const watch = grunt => {
 			],
 			tasks: [
 				'string-replace:inc_to_dest',
+				'create_autoloader:inc',
 				...afterTasks,
 			]
 		},
@@ -92,7 +122,7 @@ const watch = grunt => {
 
 		readme: {
 			files: [
-				'src/root_files/readme.txt',
+				'src/readme.txt',
 				...grunt.option( 'pattern' ).exclude,
 			],
 			tasks: [
@@ -116,21 +146,10 @@ const watch = grunt => {
 			],
 		},
 
-		template_parts: {
-			files: [
-				'src/template_parts/**/*.php',
-				...grunt.option( 'pattern' ).exclude,
-			],
-			tasks: [
-				'string-replace:template_parts',
-				...afterTasks,
-			]
-		},
-
 		...( 'plugin' === pkg.projectType && {
 			plugin_main_file: {
 				files: [
-					'src/root_files/' + pkg.name + '.php',
+					'src/' + pkg.name + '.php',
 					...grunt.option( 'pattern' ).exclude,
 				],
 				tasks: [
@@ -145,7 +164,7 @@ const watch = grunt => {
 
 			functionsPhp: {
 				files: [
-					'src/root_files/functions.php',
+					'src/functions.php',
 					...grunt.option( 'pattern' ).exclude,
 				],
 				tasks: [
@@ -166,7 +185,6 @@ const watch = grunt => {
 			},
 
 		} ),
-
 
 	} );
 
