@@ -26,8 +26,8 @@ const copy = grunt => {
 			cwd: 'src/',
 			src: [
 				'**/*',
-				'!src/readme.txt',
-				'!src/readme.txt',
+				'!readme.txt',
+				'!readme.txt',
 				'!*.php',
 				'!**/*.php',
 				...grunt.option( 'pattern' ).excludeFromRoot,

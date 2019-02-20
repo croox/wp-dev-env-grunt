@@ -7,7 +7,7 @@ const watch = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
-	afterTasks = [
+	const afterTasks = [
 		'sync',
 		'sound:blob',
 	];
@@ -46,8 +46,7 @@ const watch = grunt => {
 				cwd: 'src/',
 				src: [
 					'**/*',
-					'!src/readme.txt',
-					'!src/readme.txt',
+					'!readme.txt',
 					'!*.php',
 					'!**/*.php',
 					...grunt.option( 'pattern' ).excludeFromRoot,
@@ -60,23 +59,44 @@ const watch = grunt => {
 			]
 		},
 
-		root_php: {
-			files: [ {
-				expand: true,
-				cwd: 'src/',
-				src: [
-					'*.php',
-					'**/*.php',
-					...( 'plugin' === pkg.projectType ? [
-						'!' + pkg.name + '.php',
-					] : [] ),
-					...( 'theme' === pkg.projectType ? [
-						'!functions.php',
-					] : [] ),
+		root: {
+			options: {
+				cwd: {
+					files: 'src',
+				}
+			},
+			files: [
+					'**/*',
+					'!readme.txt',
+					'!*.php',
+					'!**/*.php',
 					...grunt.option( 'pattern' ).excludeFromRoot,
 					...grunt.option( 'pattern' ).exclude,
-				],
-			} ],
+			],
+			tasks: [
+				'copy:root',
+				...afterTasks,
+			],
+		},
+
+		root_php: {
+			options: {
+				cwd: {
+					files: 'src',
+				}
+			},
+			files: [
+				'*.php',
+				'**/*.php',
+				...( 'plugin' === pkg.projectType ? [
+					'!' + pkg.name + '.php',
+				] : [] ),
+				...( 'theme' === pkg.projectType ? [
+					'!functions.php',
+				] : [] ),
+				...grunt.option( 'pattern' ).excludeFromRoot,
+				...grunt.option( 'pattern' ).exclude,
+			],
 			tasks: [
 				'string-replace:root',
 				...afterTasks,

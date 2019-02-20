@@ -38,7 +38,7 @@ const create_autoloader = grunt => {
 				'	die;',
 				'}',
 				'',
-				'function ' + pkg.funcPrefix + '_include_' + this.target + '() {',
+				'function ' + pkg.funcPrefix + '_include_' + dir + '() {',
 				'',
 				'	$paths = array(',
 				...[...files].map( file => '		\'/' + this.target + '/' + dir + '/' + file + '\','),
