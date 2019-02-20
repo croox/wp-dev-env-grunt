@@ -15,13 +15,9 @@ const {
 	omit,
 } = require( 'lodash' );
 
-
-
 const updateConfigs = require('./updateConfigs');
-const loadNpmTasks = require('./loadNpmTasks');
 const setupHooks = require('./setupHooks');
 const getChangelog = require('./getChangelog');
-
 
 const startGrunt = grunt => {
 
@@ -29,26 +25,25 @@ const startGrunt = grunt => {
 
 	// load tasks
 	require('time-grunt')(grunt);
-	loadNpmTasks( grunt, 'grunt-browserify' );
-	loadNpmTasks( grunt, 'grunt-cleanempty' );
-	loadNpmTasks( grunt, 'grunt-contrib-clean' );
-	loadNpmTasks( grunt, 'grunt-contrib-compress' );
-	loadNpmTasks( grunt, 'grunt-contrib-concat' );
-	loadNpmTasks( grunt, 'grunt-contrib-copy' );
-	loadNpmTasks( grunt, 'grunt-contrib-sass' );
-	loadNpmTasks( grunt, 'grunt-contrib-uglify-es' );
-	loadNpmTasks( grunt, 'grunt-contrib-watch' );
-	loadNpmTasks( grunt, 'grunt-css-purge' );
-	loadNpmTasks( grunt, 'grunt-git' );
-	loadNpmTasks( grunt, 'grunt-notify' );
-	loadNpmTasks( grunt, 'grunt-po2json' );
-	loadNpmTasks( grunt, 'grunt-pot' );
-	loadNpmTasks( grunt, 'grunt-potomo' );
-	loadNpmTasks( grunt, 'grunt-string-replace' );
-	loadNpmTasks( grunt, 'grunt-wp-readme-to-markdown' );
-	loadNpmTasks( grunt, 'gruntify-eslint' );
-	grunt.loadTasks( path.join( path.resolve( 'node_modules' ), 'wp-dev-env-grunt', 'grunt','tasks' ) );
-
+	grunt.loadNpmTasks( 'grunt-browserify' );
+	grunt.loadNpmTasks( 'grunt-cleanempty' );
+	grunt.loadNpmTasks( 'grunt-contrib-clean' );
+	grunt.loadNpmTasks( 'grunt-contrib-compress' );
+	grunt.loadNpmTasks( 'grunt-contrib-concat' );
+	grunt.loadNpmTasks( 'grunt-contrib-copy' );
+	grunt.loadNpmTasks( 'grunt-contrib-sass' );
+	grunt.loadNpmTasks( 'grunt-contrib-uglify-es' );
+	grunt.loadNpmTasks( 'grunt-contrib-watch' );
+	grunt.loadNpmTasks( 'grunt-css-purge' );
+	grunt.loadNpmTasks( 'grunt-git' );
+	grunt.loadNpmTasks( 'grunt-notify' );
+	grunt.loadNpmTasks( 'grunt-po2json' );
+	grunt.loadNpmTasks( 'grunt-pot' );
+	grunt.loadNpmTasks( 'grunt-potomo' );
+	grunt.loadNpmTasks( 'grunt-string-replace' );
+	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
+	grunt.loadNpmTasks( 'gruntify-eslint' );
+	grunt.loadTasks( path.join( path.resolve( 'node_modules' ), 'wp-dev-env-grunt', 'grunt', 'tasks' ) );
 
 	// set option pattern
 	grunt.option( 'pattern', {
