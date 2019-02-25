@@ -43,9 +43,20 @@ const copy = grunt => {
 				'**/*',
 				'!example-functions.php',
 				'!**/*.po',
+				'!**/*.pot',
 				'!css/sass/**/*',
 			],
 			dest: grunt.option( 'destination' ) + '/vendor/webdevstudios/cmb2',
+		},
+
+		vendor_croox_wde_frame: {
+			expand: true,
+			cwd: 'vendor/croox/wp-dev-env-frame',
+			src: [
+				'**/*',
+				'!.git/**/*',
+			],
+			dest: grunt.option( 'destination' ) + '/vendor/croox/wp-dev-env-frame',
 		},
 
 		trunkToTags: {

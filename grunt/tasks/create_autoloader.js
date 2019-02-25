@@ -46,7 +46,7 @@ const create_autoloader = grunt => {
 				'',
 				'	if ( count( $paths ) > 0 ) {',
 				'		foreach( $paths as $path ) {',
-				'			include_once( ' + project_class + '::' + pkg.projectType + '_dir_path() . $path );',
+				'			include_once( ' + project_class + '::get_instance()->get_dir_path() . $path );',
 				'		}',
 				'	}',
 				'',
