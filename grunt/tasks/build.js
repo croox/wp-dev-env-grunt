@@ -12,6 +12,7 @@ const build = grunt => {
 		let tasks = [
 			'clean',
 			'copy:root',
+			'copy:vendor_cmb2',
 			'string-replace:root',
 			'string-replace:inc_to_dest',
 			'create_autoloader:inc',

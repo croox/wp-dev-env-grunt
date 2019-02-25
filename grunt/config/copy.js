@@ -36,6 +36,18 @@ const copy = grunt => {
 			dest: grunt.option( 'destination' ) + '/',
 		},
 
+		vendor_cmb2: {
+			expand: true,
+			cwd: 'vendor/webdevstudios/cmb2',
+			src: [
+				'**/*',
+				'!example-functions.php',
+				'!**/*.po',
+				'!css/sass/**/*',
+			],
+			dest: grunt.option( 'destination' ) + '/vendor/webdevstudios/cmb2',
+		},
+
 		trunkToTags: {
 			expand: true,
 			cwd: 'dist/trunk/',
