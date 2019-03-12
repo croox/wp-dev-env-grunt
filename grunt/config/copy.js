@@ -36,6 +36,16 @@ const copy = grunt => {
 			dest: grunt.option( 'destination' ) + '/',
 		},
 
+		vendor_composer: {
+			expand: true,
+			cwd: 'vendor/',
+			src: [
+				'autoload.php',
+				'composer/**/*',
+			],
+			dest: grunt.option( 'destination' ) + '/vendor',
+		},
+
 		vendor_cmb2: {
 			expand: true,
 			cwd: 'vendor/cmb2/cmb2',
