@@ -38,7 +38,7 @@ const copy = grunt => {
 
 		vendor_cmb2: {
 			expand: true,
-			cwd: 'vendor/webdevstudios/cmb2',
+			cwd: 'vendor/cmb2/cmb2',
 			src: [
 				'**/*',
 				'!example-functions.php',
@@ -46,7 +46,7 @@ const copy = grunt => {
 				'!**/*.pot',
 				'!css/sass/**/*',
 			],
-			dest: grunt.option( 'destination' ) + '/vendor/webdevstudios/cmb2',
+			dest: grunt.option( 'destination' ) + '/vendor/cmb2/cmb2',
 		},
 
 		vendor_croox_wde_frame: {
