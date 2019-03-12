@@ -12,6 +12,7 @@ const build = grunt => {
 		let tasks = [
 			'clean',
 			'copy:root',
+			'copy:vendor_composer',
 			'copy:vendor_croox_wde_frame',
 			'copy:vendor_cmb2',
 			'string-replace:root',
