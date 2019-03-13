@@ -11,6 +11,7 @@ const build = grunt => {
 
 		let tasks = [
 			'clean',
+			'composer_dumpAutoload',
 			'copy:root',
 			'copy:vendor_composer',
 			'copy:vendor_croox_wde_frame',
