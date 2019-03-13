@@ -192,7 +192,7 @@ const dist = grunt => {
 		.then( setOptionsUpdateConfigs )
 		.then( props => {
 
-			grunt.task.run( [
+			const tasks = grunt.hooks.applyFilters( 'tasks.dist.tasks', [
 				'build',
 				'eslint:dest',
 				'copy:trunkToTags',
@@ -203,6 +203,8 @@ const dist = grunt => {
 				'sound:fanfare',
 				'askpush',
 			] );
+
+			grunt.task.run( tasks );
 
 			done.apply();
 

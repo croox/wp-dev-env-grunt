@@ -5,7 +5,7 @@ const copy = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
-	grunt.config( 'copy', {
+	const config = grunt.hooks.applyFilters( 'config.copy', {
 
 		images: {
 			expand: true,
@@ -80,6 +80,8 @@ const copy = grunt => {
 		},
 
 	} );
+
+	grunt.config( 'copy', config );
 
 };
 

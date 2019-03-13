@@ -1,7 +1,7 @@
 
 const css_purge = grunt => {
 
-	grunt.config( 'css_purge', {
+	const config = grunt.hooks.applyFilters( 'config.css_purge', {
 		destination: {
 			files: [{
 				expand: true,
@@ -12,8 +12,9 @@ const css_purge = grunt => {
 				dest: grunt.option( 'destination' ) + '/css',
 			}]
 		},
-
 	} );
+
+	grunt.config( 'css_purge', config );
 
 };
 

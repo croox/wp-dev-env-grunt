@@ -1,7 +1,7 @@
 
 const po2json = grunt => {
 
-	grunt.config( 'po2json', {
+	const config = grunt.hooks.applyFilters( 'config.po2json', {
 		options: {
 			format: 'jed',
 		},
@@ -15,6 +15,8 @@ const po2json = grunt => {
 			}]
 		}
 	} );
+
+	grunt.config( 'po2json', config );
 
 };
 

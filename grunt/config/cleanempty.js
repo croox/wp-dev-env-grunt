@@ -1,7 +1,7 @@
 
 const cleanempty = grunt => {
 
-	grunt.config( 'cleanempty', {
+	const config = grunt.hooks.applyFilters( 'config.cleanempty', {
 		options: {
 			files: false,
 			folders: true,
@@ -13,6 +13,8 @@ const cleanempty = grunt => {
 		},
 
 	} );
+
+	grunt.config( 'cleanempty', config );
 
 };
 

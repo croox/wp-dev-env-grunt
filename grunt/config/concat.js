@@ -7,7 +7,7 @@ const concat = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
-	const config = {
+	const commonConfig = {
 
 		readme: {
 			options: {
@@ -91,31 +91,29 @@ const concat = grunt => {
 			},
 		} ),
 
-
 	};
 
 
-
-	grunt.config( 'concat', {
+	const config = grunt.hooks.applyFilters( 'config.concat', {
 
 		readme: {
-			...config.readme,
+			...commonConfig.readme,
 			dest: grunt.option( 'destination' ) + '/readme.txt',
 		},
 
 		readmeMd: {
-			...config.readme,
+			...commonConfig.readme,
 			dest: grunt.option( 'destination' ) + '/README.md',
 		},
 
 		...( 'plugin' === pkg.projectType && {
 			plugin_main_file: {
-				...config.plugin_main_file,
+				...commonConfig.plugin_main_file,
 				src: grunt.option( 'destination' ) + '/' + pkg.name + '.php',
 				dest: grunt.option( 'destination' ) + '/' + pkg.name + '.php',
 			},
 			dummy_plugin_file: {
-				...config.plugin_main_file,
+				...commonConfig.plugin_main_file,
 				src: pkg.name + '.php',
 				dest: pkg.name + '.php',
 			},
@@ -123,18 +121,20 @@ const concat = grunt => {
 
 		...( 'theme' === pkg.projectType && {
 			style: {
-				...config.style,
+				...commonConfig.style,
 				src: grunt.option( 'destination' ) + '/style.css',
 				dest: grunt.option( 'destination' ) + '/style.css'
 			},
 			dummy_theme_style: {
-				...config.style,
+				...commonConfig.style,
 				src: 'style.css',
 				dest: 'style.css'
 			},
 		} ),
 
-	} );
+	}, commonConfig );
+
+	grunt.config( 'concat', config );
 
 }
 

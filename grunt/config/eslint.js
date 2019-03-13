@@ -1,7 +1,7 @@
 
 const eslint = grunt => {
 
-	grunt.config( 'eslint', {
+	const config = grunt.hooks.applyFilters( 'config.eslint', {
 		src: {
 			src: [
 				'src/js/**/*.js',
@@ -18,6 +18,8 @@ const eslint = grunt => {
 			]
 		},
 	} );
+
+	grunt.config( 'eslint', config );
 
 };
 

@@ -21,7 +21,7 @@ const browserify = grunt => {
 		},
 	};
 
-	grunt.config( 'browserify', {
+	const config = grunt.hooks.applyFilters( 'config.browserify', {
 		options: options,
 
 		all: {
@@ -38,6 +38,8 @@ const browserify = grunt => {
 		},
 
 	} );
+
+	grunt.config( 'browserify', config );
 
 };
 

@@ -12,7 +12,7 @@ const watch = grunt => {
 		'sound:blob',
 	];
 
-	grunt.config( 'watch', {
+	const config = grunt.hooks.applyFilters( 'config.watch', {
 
 		options: {
 			spawn: false,
@@ -207,6 +207,8 @@ const watch = grunt => {
 		} ),
 
 	} );
+
+	grunt.config( 'watch', config );
 
 };
 

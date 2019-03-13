@@ -4,7 +4,7 @@ const compress = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
-	grunt.config( 'compress', {
+	const config = grunt.hooks.applyFilters( 'config.compress', {
 
 		trunk_to_releases: {
 			options: {
@@ -22,6 +22,8 @@ const compress = grunt => {
 			],
 		},
 	} );
+
+	grunt.config( 'compress', config );
 
 };
 

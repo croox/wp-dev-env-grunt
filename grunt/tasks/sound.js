@@ -1,6 +1,5 @@
 const player = require('play-sound')();
 
-
 const path = require('path');
 
 const sound = grunt => {
@@ -33,8 +32,14 @@ const sound = grunt => {
 
 		}
 
-		const soundsPath = path.resolve( 'node_modules/wp-dev-env-grunt/grunt/sounds' );
-		player.play( path.join( soundsPath, file ) );
+		file = grunt.hooks.applyFilters( 'tasks.sound.file', file, key );
+
+		const soundsPath = grunt.hooks.applyFilters( 'tasks.sound.soundsPath',
+			path.resolve( 'node_modules/wp-dev-env-grunt/grunt/sounds' ),
+			key
+		);
+
+		player.play( grunt.hooks.applyFilters( 'tasks.sound.play', path.join( soundsPath, file ), key ) );
 
 	} );
 

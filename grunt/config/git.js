@@ -12,7 +12,7 @@ const git = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
-	grunt.config( 'gitadd', {
+	const configGitadd = grunt.hooks.applyFilters( 'config.gitadd', {
 		ondist: {
 			files: {
 				src: [
@@ -26,27 +26,29 @@ const git = grunt => {
 				],
 			}
 		}
-	} ) ;
+	} );
+	grunt.config( 'gitadd', configGitadd );
 
-	grunt.config( 'gitcommit', {
+	const configGitcommit = grunt.hooks.applyFilters( 'config.gitcommit', {
 		ondist: {
 			options: {
 				message: grunt.option( 'commitmsg' ),
 			},
 		},
-	} ) ;
+	} );
+	grunt.config( 'gitcommit', configGitcommit ) ;
 
-	grunt.config( 'gittag', {
+	const configGittag = grunt.hooks.applyFilters( 'config.gittag', {
 		ondist: {
 			options: {
 				tag: pkg.version,
 				message: grunt.option( 'commitmsg' ),
 			}
 		},
-	} ) ;
+	} );
+	grunt.config( 'gittag', configGittag ) ;
 
-
-	grunt.config( 'gitpush', {
+	const configGitpush = grunt.hooks.applyFilters( 'config.gitpush', {
 		commit: {
 			options: {
 				message: grunt.option( 'commitmsg' ),
@@ -58,9 +60,8 @@ const git = grunt => {
 				tags: true,
 			}
 		},
-	} ) ;
-
-
+	} );
+	grunt.config( 'gitpush', configGitpush ) ;
 
 };
 

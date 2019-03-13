@@ -15,15 +15,19 @@ const {
 	omit,
 } = require( 'lodash' );
 
+const createHooks = require('./createHooks');
 const updateConfigs = require('./updateConfigs');
 const setupHooks = require('./setupHooks');
 const getChangelog = require('./getChangelog');
 
 const startGrunt = grunt => {
 
+	if ( ! grunt.hooks ) createHooks( grunt );
+
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
 	// load tasks
+	grunt.hooks.doAction( 'startGrunt.loadTasks.before' );
 	require('time-grunt')(grunt);
 	grunt.loadNpmTasks( 'grunt-browserify' );
 	grunt.loadNpmTasks( 'grunt-cleanempty' );
@@ -44,9 +48,12 @@ const startGrunt = grunt => {
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
 	grunt.loadNpmTasks( 'gruntify-eslint' );
 	grunt.loadTasks( path.join( path.resolve( 'node_modules' ), 'wp-dev-env-grunt', 'grunt', 'tasks' ) );
+	grunt.hooks.doAction( 'startGrunt.loadTasks.after' );
 
+
+	grunt.hooks.doAction( 'startGrunt.initOptions.before' );
 	// set option pattern
-	grunt.option( 'pattern', {
+	grunt.option( 'pattern', grunt.hooks.applyFilters( 'startGrunt.option.pattern', {
 		exclude: [
 			'!*~',
 			'!**/*~',
@@ -71,7 +78,7 @@ const startGrunt = grunt => {
 				'!templates/**/*',
 			] : [] ),
 		],
-	} );
+	} ) );
 	// set option compress
 	if ( ! isBoolean( grunt.option( 'compress' ) ) )
 		grunt.option( 'compress', false );
@@ -86,6 +93,7 @@ const startGrunt = grunt => {
 	changelog.title = '';
 	changelog.description = '== Changelog ==';
 	grunt.option( 'changelog', changelog );
+	grunt.hooks.doAction( 'startGrunt.initOptions.after' );
 
 
 	// setup config

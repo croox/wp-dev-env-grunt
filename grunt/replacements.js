@@ -21,9 +21,7 @@ const replacements = {
 			replacement: val.toString(),
 		} ) : null );
 
-
-
-		return repls;
+		return grunt.hooks.applyFilters( 'replacements.replacements', repls );
 	},
 
 };

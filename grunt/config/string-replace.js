@@ -7,7 +7,7 @@ const stringReplace = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
-	grunt.config( 'string-replace', {
+	const config = grunt.hooks.applyFilters( 'config.string-replace', {
 		options: {
 			replacements: replacements.get( grunt ),
 		},
@@ -80,6 +80,8 @@ const stringReplace = grunt => {
 		// },
 
 	} );
+
+	grunt.config( 'string-replace', config );
 
 };
 module.exports = stringReplace;

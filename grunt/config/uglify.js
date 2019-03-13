@@ -1,7 +1,7 @@
 
 const uglify = grunt => {
 
-	grunt.config( 'uglify', {
+	const config = grunt.hooks.applyFilters( 'config.uglify', {
 		destination: {
 			options: {
 				mangle: true,
@@ -19,6 +19,8 @@ const uglify = grunt => {
 		},
 
 	} );
+
+	grunt.config( 'uglify', config );
 
 };
 

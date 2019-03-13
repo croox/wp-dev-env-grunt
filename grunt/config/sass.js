@@ -28,7 +28,7 @@ const sass = grunt => {
 
 	};
 
-	grunt.config( 'sass', {
+	const config = grunt.hooks.applyFilters( 'config.sass', {
 		options: options,
 
 		all: {
@@ -45,6 +45,8 @@ const sass = grunt => {
 		},
 
 	} );
+
+	grunt.config( 'sass', config );
 
 };
 

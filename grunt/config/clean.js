@@ -1,7 +1,7 @@
 
 const clean = grunt => {
 
-	grunt.config( 'clean', {
+	const config = grunt.hooks.applyFilters( 'config.clean', {
 		destination: {
 			src: [
 				grunt.option( 'destination' ) + '/**/*',
@@ -9,6 +9,8 @@ const clean = grunt => {
 
 		}
 	} );
+
+	grunt.config( 'clean', config );
 
 };
 

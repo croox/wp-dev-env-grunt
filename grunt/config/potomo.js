@@ -1,7 +1,7 @@
 
 const potomo = grunt => {
 
-	grunt.config( 'potomo', {
+	const config = grunt.hooks.applyFilters( 'config.potomo', {
 		options: {
 			poDel: false
 		},
@@ -16,6 +16,8 @@ const potomo = grunt => {
 			}]
 		},
 	} );
+
+	grunt.config( 'potomo', config );
 
 };
 

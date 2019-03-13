@@ -63,6 +63,8 @@ const build = grunt => {
 			'sound:bling',
 		];
 
+		tasks = grunt.hooks.applyFilters( 'tasks.build.tasks', tasks );
+
 		grunt.task.run( tasks );
 	});
 };
