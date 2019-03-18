@@ -40,7 +40,7 @@ const dist = grunt => {
 		const changelog = getChangelog( grunt, pkg );
 
 		// get nextRelease
-		// const nextReleaseFile = '.gwde_nextRelease.json';
+		// const nextReleaseFile = '.wde_nextRelease.json';
 		// const emptyRelease = { changes: [] };
 		// let nextRelease;
 		const nextRelease = getNextRelease( grunt );
@@ -152,7 +152,7 @@ const dist = grunt => {
 
 		const resetNextReleaseFile = props => {
 
-			const nextReleaseFile = '.gwde_nextRelease.json';
+			const nextReleaseFile = '.wde_nextRelease.json';
 			const emptyRelease = { changes: [] };
 
 			grunt.file.write( nextReleaseFile, JSON.stringify( emptyRelease, null, 2 ) );
@@ -193,6 +193,7 @@ const dist = grunt => {
 		.then( props => {
 
 			const tasks = grunt.hooks.applyFilters( 'tasks.dist.tasks', [
+				'gitrm:ondist',
 				'build',
 				'eslint:dest',
 				'copy:trunkToTags',

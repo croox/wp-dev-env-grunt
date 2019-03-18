@@ -16,7 +16,7 @@ const git = grunt => {
 		ondist: {
 			files: {
 				src: [
-					'.gwde_nextRelease.json',
+					'.wde_nextRelease.json',
 					'CHANGELOG.md',
 					'package.json',
 					'dist/trunk/*',
@@ -28,6 +28,21 @@ const git = grunt => {
 		}
 	} );
 	grunt.config( 'gitadd', configGitadd );
+
+	const configGitrm = grunt.hooks.applyFilters( 'config.gitrm', {
+		ondist: {
+			options: {
+				recurse: true,
+				force: true,
+			},
+			files: {
+				src: [
+					'dist/trunk/',
+				],
+			},
+		}
+	} );
+	grunt.config( 'gitrm', configGitrm );
 
 	const configGitcommit = grunt.hooks.applyFilters( 'config.gitcommit', {
 		ondist: {

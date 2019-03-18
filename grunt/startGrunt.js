@@ -57,6 +57,8 @@ const startGrunt = grunt => {
 		exclude: [
 			'!*~',
 			'!**/*~',
+			'!#*#',
+			'!**/#*#',
 			'!*.xcf',
 			'!**/*.xcf',
 		],

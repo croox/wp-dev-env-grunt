@@ -106,7 +106,7 @@ const addchange = grunt => {
 			} );
 
 		} ).then( newNextRelease => {
-			grunt.file.write( '.gwde_nextRelease.json' , JSON.stringify( newNextRelease, null, 2) );
+			grunt.file.write( '.wde_nextRelease.json' , JSON.stringify( newNextRelease, null, 2) );
 			done.apply()
 		} ).catch( e => {
 			grunt.warn( 'addchange... some error or canceled by user' );

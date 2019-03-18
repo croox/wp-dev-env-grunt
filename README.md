@@ -22,7 +22,7 @@ Example Gruntfile:
 	module.exports = grunt => {
 		createHooks( grunt );
 
-		grunt.hooks.addFilter( 'config.copy', 'emk.configCopy', config => {
+		grunt.hooks.addFilter( 'config.copy', 'someprefix.config.copy', config => {
 			// do something with the config object. Maybe log something:
 			grunt.log.writeln( config.vendor_composer.src );
 			return config;

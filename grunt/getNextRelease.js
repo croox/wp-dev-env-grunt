@@ -1,10 +1,10 @@
 const path = require('path');
 
 // return nextRelease
-// maybe init .gwde_nextRelease.json
+// maybe init .wde_nextRelease.json
 const getNextRelease = grunt => {
 
-	const fileName = path.resolve( '.gwde_nextRelease.json' );
+	const fileName = path.resolve( '.wde_nextRelease.json' );
 
 	const emptyRelease = { changes: [] };
 	let nextRelease;
