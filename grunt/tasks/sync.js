@@ -41,7 +41,6 @@ const getSyncSource = grunt => {
 
 const sync = grunt => {
 
-
 	grunt.registerTask( 'sync', 'sync to wp_install(s)', function( wp_installs, version ){
 
 		// wp_installs

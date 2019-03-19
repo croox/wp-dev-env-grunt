@@ -1,11 +1,28 @@
 
-
+const url = require('url');
 const path = require('path');
+const {
+	capitalize,
+} = require('lodash');
 
 
 const concat = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
+
+	// get githubUploaderTag
+	const repositoryUrl =  new URL( pkg.repositoryUri );
+	let githubUploaderTag = '';
+	[
+		'GitHub',
+		'Bitbucket',
+		'GitLab',
+		'Gitea',
+	].map( host =>
+		githubUploaderTag = githubUploaderTag.length === 0 && repositoryUrl.hostname.includes( host.toLowerCase() )
+			? host + ' ' + capitalize( pkg.projectType ) + ' URI'
+			: githubUploaderTag
+	);
 
 	const commonConfig = {
 
@@ -56,8 +73,10 @@ const concat = grunt => {
 						'	Text Domain: ' + pkg.textDomain,
 						'	Domain Path: ' + pkg.domainPath,
 						'	Tags: ' + pkg.tags,
-						'	GitHub Plugin URI: ' + pkg.repositoryUri,
-						'	Release Asset: true',
+						...(  githubUploaderTag.length > 0 ? [
+							'	' + githubUploaderTag + ': ' + pkg.repositoryUri,
+							'	Release Asset: true',
+						] : [] ),
 						'*/',
 						'?>',
 					].join( '\n' ),
@@ -73,15 +92,19 @@ const concat = grunt => {
 						'	Theme Name: ' + pkg.displayName,
 						'	Theme URI: ' + pkg.uri,
 						...( pkg.template ? ['	Template: ' + pkg.template] : [] ),
-						'	Author: ' + pkg.author,
-						'	Author URI: ' + pkg.authorUri,
 						'	Description: ' + pkg.description,
 						'	Version: ' + pkg.version,
+						'	Author: ' + pkg.author,
+						'	Author URI: ' + pkg.authorUri,
 						'	License: ' + pkg.license,
 						'	License URI: ' + pkg.licenseUri,
 						'	Text Domain: ' + pkg.textDomain,
-						'	Tags: ' + pkg.tags,
 						'	Domain Path: /languages',
+						'	Tags: ' + pkg.tags,
+						...(  githubUploaderTag.length > 0 ? [
+							'	' + githubUploaderTag + ': ' + pkg.repositoryUri,
+							'	Release Asset: true',
+						] : [] ),
 						'',
 						'*/',
 						'',

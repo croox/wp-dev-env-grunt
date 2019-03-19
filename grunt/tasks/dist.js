@@ -7,6 +7,7 @@ const path = require('path');
 const {
 	isFunction,
 	isString,
+	find,
 } = require('lodash');
 
 const {
@@ -38,22 +39,14 @@ const dist = grunt => {
 
 		// get changelog
 		const changelog = getChangelog( grunt, pkg );
-
 		// get nextRelease
-		// const nextReleaseFile = '.wde_nextRelease.json';
-		// const emptyRelease = { changes: [] };
-		// let nextRelease;
 		const nextRelease = getNextRelease( grunt );
-		// try {
-		// 	nextRelease = grunt.file.readJSON( nextReleaseFile );
-		// }
-		// catch( err ) {
-		// 	nextRelease = emptyRelease;
-		// }
 
 		const done = this.async();
 
-		const checkStaged = staged => staged.length === 0 ? new Promise( ( resolve, reject ) => prompt( [
+		let gitStatus;
+
+		const checkStaged = status => status.staged.length === 0 ? new Promise( ( resolve, reject ) => prompt( [
 			{
 				type: 'toggle',
 				name: 'proceed',
@@ -182,7 +175,9 @@ const dist = grunt => {
 		};
 
 
-		new Promise( ( resolve, reject ) => simpleGit.status( ( err, status ) => resolve( status.staged ) ) )
+
+
+		new Promise( ( resolve, reject ) => simpleGit.status( ( err, status ) => resolve( gitStatus = status ) ) )
 		.then( checkStaged )
 		.then( getDistInfo )
 		.then( checkChanges )
@@ -191,9 +186,10 @@ const dist = grunt => {
 		.then( resetNextReleaseFile )
 		.then( setOptionsUpdateConfigs )
 		.then( props => {
-
 			const tasks = grunt.hooks.applyFilters( 'tasks.dist.tasks', [
-				'gitrm:ondist',
+				...( find( gitStatus.files, file => file.path.includes( 'dist/trunk/' ) ) ? [
+					'gitrm:ondist',
+				] : [] ),
 				'build',
 				'eslint:dest',
 				'copy:trunkToTags',
