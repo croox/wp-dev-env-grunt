@@ -1,12 +1,4 @@
-
-
 const path = require('path');
-
-
-
-const {
-	get,
-} = require('lodash');
 
 const git = grunt => {
 

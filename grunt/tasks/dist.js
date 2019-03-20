@@ -8,12 +8,11 @@ const {
 	isFunction,
 	isString,
 	find,
+	startsWith,
 } = require('lodash');
 
 const {
-	Changelog,
 	Release,
-	parser,
 } = require('keep-a-changelog');
 
 const semver = require('semver');
@@ -25,7 +24,8 @@ const printChangesHeader = require('../printChangesHeader');
 const updateConfigs = require('../updateConfigs');
 const getChangelog = require('../getChangelog');
 const getNextRelease = require('../getNextRelease');
-
+const setOptionRelease = require('../setOptionRelease');
+const setOptionChangelog = require('../setOptionChangelog');
 
 const dist = grunt => {
 
@@ -53,7 +53,7 @@ const dist = grunt => {
 				message: chalk.yellow( 'Nothing staged. Proceed dist task?' ),
 			},
 		] ).then( answers => answers.proceed ? resolve() : reject() ).catch( e => {
-			grunt.log.writeln( 'checkStaged .... shit, something happend!' );
+			grunt.log.writeln( 'checkStaged ....  what happend? Did you kill the process?' );
 			grunt.log.writeln( e );
 			reject( done.apply() );
 		} ) ) : true;
@@ -77,7 +77,7 @@ const dist = grunt => {
 					validate: val => 0 === val.length ? 'Please provide a description!' : true,
 				},
 			] ).then( distInfo => resolve( distInfo ) ).catch( e => {
-				grunt.log.writeln( 'getDistInfo .... shit, something happend!' );
+				grunt.log.writeln( 'getDistInfo ....  what happend? Did you kill the process?' );
 				grunt.log.writeln( e );
 				reject( done.apply() );
 			} )
@@ -98,7 +98,7 @@ const dist = grunt => {
 					message: chalk.yellow( 'Proceed dist task?' ),
 				},
 			] ).then( answers => answers.proceed ? resolve( distInfo ) : reject() ).catch( e => {
-				grunt.log.writeln( 'checkChanges .... shit, something happend!' );
+				grunt.log.writeln( 'checkChanges ....  what happend? Did you kill the process?' );
 				grunt.log.writeln( e );
 				reject( done.apply() );
 			} ) )
@@ -162,20 +162,14 @@ const dist = grunt => {
 
 			grunt.option( 'destination', 'dist/trunk' );
 			grunt.option( 'compress', true );
-
-			changelog.title = '';
-			changelog.description = '== Changelog ==';
-			grunt.option( 'changelog', changelog );
-
+			setOptionChangelog( grunt, changelog );
 			grunt.option( 'commitmsg', newRelease.toString().replace( '\n', '\n\n' ) );
+			setOptionRelease( grunt, newRelease );
 
 			updateConfigs( grunt );
 
 			return props;
 		};
-
-
-
 
 		new Promise( ( resolve, reject ) => simpleGit.status( ( err, status ) => resolve( gitStatus = status ) ) )
 		.then( checkStaged )
@@ -187,7 +181,7 @@ const dist = grunt => {
 		.then( setOptionsUpdateConfigs )
 		.then( props => {
 			const tasks = grunt.hooks.applyFilters( 'tasks.dist.tasks', [
-				...( find( gitStatus.files, file => file.path.includes( 'dist/trunk/' ) ) ? [
+				...( find( gitStatus.files, file => startsWith( file.path, 'dist/trunk/' ) ) ? [
 					'gitrm:ondist',
 				] : [] ),
 				'build',
@@ -208,7 +202,7 @@ const dist = grunt => {
 			return props;
 
 		} ).catch( e => {
-			grunt.warn( 'shit, something happend!' );
+			grunt.warn( ' what happend? Did you kill the process?' );
 			grunt.warn( e );
 			done.apply();
 		} );

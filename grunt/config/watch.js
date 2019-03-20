@@ -1,7 +1,5 @@
 
 const path = require('path');
-const { get } = require( 'lodash' );
-
 
 const watch = grunt => {
 
@@ -36,25 +34,6 @@ const watch = grunt => {
 			],
 			tasks: [
 				'copy:fonts',
-				...afterTasks,
-			]
-		},
-
-		root: {
-			files: [ {
-				expand: true,
-				cwd: 'src/',
-				src: [
-					'**/*',
-					'!readme.txt',
-					'!*.php',
-					'!**/*.php',
-					...grunt.option( 'pattern' ).excludeFromRoot,
-					...grunt.option( 'pattern' ).exclude,
-				],
-			} ],
-			tasks: [
-				'copy:root',
 				...afterTasks,
 			]
 		},

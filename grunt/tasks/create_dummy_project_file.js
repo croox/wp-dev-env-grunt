@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 
 const create_dummy_project_file = grunt => {

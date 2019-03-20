@@ -3,8 +3,6 @@ const path = require('path');
 
 const browserify = grunt => {
 
-	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
-
 	const options = {
 		transform: [
 			[ path.resolve( 'node_modules/browserify-shim' ), { global: true } ],

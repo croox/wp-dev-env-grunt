@@ -1,28 +1,17 @@
 
-const url = require('url');
 const path = require('path');
+const getRepoHost = require('../getRepoHost');
 const {
 	capitalize,
+	get,
 } = require('lodash');
-
 
 const concat = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
-	// get githubUploaderTag
-	const repositoryUrl =  new URL( pkg.repositoryUri );
-	let githubUploaderTag = '';
-	[
-		'GitHub',
-		'Bitbucket',
-		'GitLab',
-		'Gitea',
-	].map( host =>
-		githubUploaderTag = githubUploaderTag.length === 0 && repositoryUrl.hostname.includes( host.toLowerCase() )
-			? host + ' ' + capitalize( pkg.projectType ) + ' URI'
-			: githubUploaderTag
-	);
+	const repoHostName = get( getRepoHost( grunt ), ['name'] );
+	const githubUploaderTag = repoHostName ? repoHostName + ' ' + capitalize( pkg.projectType ) + ' URI' : '';
 
 	const commonConfig = {
 

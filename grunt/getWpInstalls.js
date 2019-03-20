@@ -3,8 +3,6 @@ const getParentDirs = require('parent-dirs');
 const {
 	get,
 	isString,
-	isArray,
-	isObject,
 	find,
 } = require( 'lodash' );
 

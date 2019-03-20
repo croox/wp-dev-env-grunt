@@ -1,15 +1,20 @@
 
 const chalk = require( 'chalk' );
 const path = require( 'path' );
+const getRepoHost = require( '../getRepoHost' );
+const consts = require( '../consts' );
 
 
 const defaultTask = grunt => {
+
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
 	grunt.registerTask( 'default', 'entry point, tasks overview', function() {
 
 		// ??? todo: some ui to choose task
+
+		const repoHost = getRepoHost( grunt );
 
 		[
 			'',
@@ -41,6 +46,24 @@ const defaultTask = grunt => {
 			'	' + 'Bumps the ' + pkg.projectType + ' version and builds into ' + chalk.italic( './test_build' ) + '.',
 			'	' + '... ??? and some stuff more',
 			'',
+
+			...( consts.supportedHosts.includes( repoHost.name ) ? [
+
+				chalk.yellow( 'grunt ' + 'set_token' ),
+				'	Add/replace ' + repoHost.name + ' access token',
+				'	' + 'On macOS the tokens are managed by the Keychain',
+				'	' + 'on Linux they are managed by the Secret Service API/libsecret,',
+				'	' + 'and on Windows they are managed by Credential Vault.',
+				'	' + 'see https://github.com/atom/node-keytar',
+				'',
+
+
+				chalk.yellow( 'grunt ' + 'remove_token' ),
+				'	' + 'Removes ' + repoHost.name + ' access token',
+				'',
+
+			] : [] ),
+
 		].map( str => grunt.log.writeln( str ) );
 
 	} );

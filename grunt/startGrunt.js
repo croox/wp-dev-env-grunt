@@ -1,24 +1,15 @@
 'use strict';
 
 const path = require('path');
-const fs = require('fs');
-const player = require('play-sound')();
-
 const {
-	parser,
-	Changelog,
-} = require('keep-a-changelog');
-
-const {
-	debounce,
 	isBoolean,
-	omit,
 } = require( 'lodash' );
 
 const createHooks = require('./createHooks');
 const updateConfigs = require('./updateConfigs');
 const setupHooks = require('./setupHooks');
-const getChangelog = require('./getChangelog');
+const setOptionRelease = require('./setOptionRelease');
+const setOptionChangelog = require('./setOptionChangelog');
 
 const startGrunt = grunt => {
 
@@ -29,24 +20,27 @@ const startGrunt = grunt => {
 	// load tasks
 	grunt.hooks.doAction( 'startGrunt.loadTasks.before' );
 	require('time-grunt')(grunt);
-	grunt.loadNpmTasks( 'grunt-browserify' );
-	grunt.loadNpmTasks( 'grunt-cleanempty' );
-	grunt.loadNpmTasks( 'grunt-contrib-clean' );
-	grunt.loadNpmTasks( 'grunt-contrib-compress' );
-	grunt.loadNpmTasks( 'grunt-contrib-concat' );
-	grunt.loadNpmTasks( 'grunt-contrib-copy' );
-	grunt.loadNpmTasks( 'grunt-contrib-sass' );
-	grunt.loadNpmTasks( 'grunt-contrib-uglify-es' );
-	grunt.loadNpmTasks( 'grunt-contrib-watch' );
-	grunt.loadNpmTasks( 'grunt-css-purge' );
-	grunt.loadNpmTasks( 'grunt-git' );
-	grunt.loadNpmTasks( 'grunt-notify' );
-	grunt.loadNpmTasks( 'grunt-po2json' );
-	grunt.loadNpmTasks( 'grunt-pot' );
-	grunt.loadNpmTasks( 'grunt-potomo' );
-	grunt.loadNpmTasks( 'grunt-string-replace' );
-	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
-	grunt.loadNpmTasks( 'gruntify-eslint' );
+
+	[
+		'grunt-browserify',
+		'grunt-cleanempty',
+		'grunt-contrib-clean',
+		'grunt-contrib-compress',
+		'grunt-contrib-concat',
+		'grunt-contrib-copy',
+		'grunt-contrib-sass',
+		'grunt-contrib-uglify-es',
+		'grunt-contrib-watch',
+		'grunt-css-purge',
+		'grunt-git',
+		'grunt-notify',
+		'grunt-po2json',
+		'grunt-pot',
+		'grunt-potomo',
+		'grunt-string-replace',
+		'grunt-wp-readme-to-markdown',
+		'gruntify-eslint',
+	].map( module => grunt.loadNpmTasks( module ) );
 	grunt.loadTasks( path.join( path.resolve( 'node_modules' ), 'wp-dev-env-grunt', 'grunt', 'tasks' ) );
 	grunt.hooks.doAction( 'startGrunt.loadTasks.after' );
 
@@ -61,6 +55,8 @@ const startGrunt = grunt => {
 			'!**/#*#',
 			'!*.xcf',
 			'!**/*.xcf',
+			'!readme.md',	// lower case is used for generator docs
+			'!**/readme.md',	// lower case is used for generator docs
 		],
 		excludeFromRoot: [
 			'!inc',
@@ -88,15 +84,10 @@ const startGrunt = grunt => {
 	if ( ! ['test_build','dist/trunk'].includes( grunt.option( 'destination' ) ) )
 		grunt.option( 'destination', 'test_build' );
 	// set option changelog
-	// let changelog;
-	const changelog = getChangelog( grunt, pkg );
-	// try { changelog = parser( grunt.file.read( 'CHANGELOG.md', 'UTF-8') ); }
-	// catch( err ) { changelog = new Changelog( pkg.displayName ); }
-	changelog.title = '';
-	changelog.description = '== Changelog ==';
-	grunt.option( 'changelog', changelog );
+	setOptionChangelog( grunt, null );
+	// set option release
+	setOptionRelease( grunt, null );
 	grunt.hooks.doAction( 'startGrunt.initOptions.after' );
-
 
 	// setup config
 	grunt.initConfig( {} );

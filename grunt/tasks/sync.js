@@ -4,13 +4,9 @@ const {
 	get,
 } = require( 'lodash' );
 
-
 const getWpInstalls = require('../getWpInstalls');
-const updateConfigs = require('../updateConfigs');
 
-
-
-
+// ??? recode this
 const getSyncSource = grunt => {
 
 	const version = get( grunt.option( 'sync' ), ['version'], 'test_build' );
@@ -33,11 +29,6 @@ const getSyncSource = grunt => {
 
 	return syncSource;
 }
-
-
-
-
-
 
 const sync = grunt => {
 

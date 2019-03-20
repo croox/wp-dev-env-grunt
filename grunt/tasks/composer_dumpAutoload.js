@@ -3,7 +3,7 @@ const chalk = require( 'chalk' );
 
 const composer_dumpAutoload = grunt => {
 
-	grunt.registerTask( 'composer_dumpAutoload', 'sub task: used by build', function( cmd ) {
+	grunt.registerTask( 'composer_dumpAutoload', 'sub task: used by build', function() {
 
 		const done = this.async();
 

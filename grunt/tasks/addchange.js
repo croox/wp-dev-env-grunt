@@ -1,10 +1,7 @@
 const { prompt } = require('enquirer');
 const path = require('path');
 const {
-	filter,
-	isFunction,
 	isString,
-	get,
 } = require('lodash');
 const chalk = require('chalk');
 
@@ -16,7 +13,7 @@ const addchange = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
-	grunt.registerTask( 'addchange', 'Record a change', function( type, message ) {
+	grunt.registerTask( 'addchange', 'Record a change', function() {
 
 		const nextRelease = getNextRelease( grunt );
 
@@ -112,7 +109,7 @@ const addchange = grunt => {
 			grunt.warn( 'addchange... some error or canceled by user' );
 			grunt.warn( e );
 			done.apply();
-		} );;
+		} );
 
 	} );
 };
