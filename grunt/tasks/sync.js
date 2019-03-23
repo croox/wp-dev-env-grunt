@@ -1,7 +1,10 @@
 const path = require('path');
+const chalk = require('chalk');
 const rsync = require( 'rsyncwrapper' );
 const {
 	get,
+	omit,
+	union,
 } = require( 'lodash' );
 
 const getWpInstalls = require('../getWpInstalls');
@@ -61,23 +64,44 @@ const sync = grunt => {
 		const promises = [...get( grunt.option( 'sync' ), ['wp_installs'], [] )].map( wp_install => {
 			return new Promise( ( resolve, reject ) => {
 				try {
+
+					const excludeArgs  = [...get( wp_install, ['args'], [] )].filter( arg => arg.startsWith( '!' ) ).map( arg => arg.replace( '!', '' ) );
+					const args = union(
+						[...get( wp_install, ['args'], [] )].filter( arg => ! arg.startsWith( '!' ) ),
+						[
+							'--archive',
+							'--verbose',
+							'--stats',
+							'--progress',
+						]
+					).filter( arg => ! excludeArgs.includes( arg ) );
+
 					rsync( {
+						onStdout: data => grunt.log.write( data ),
+						onStderr: data => grunt.log.write( chalk.bgRed( data ) ),
 						src: syncSource,
-						dest: wp_install.path,
 						recursive: true,
 						delete: true,
+						...( wp_install.dest.includes( '@' ) && { ssh: true } ),
+						...omit( wp_install, ['name','args'] ),
+						args: args,
 					}, ( error, stdout, stderr, cmd ) => {
-						grunt.log.writeln( 'Sync to ' + wp_install.name );
-						grunt.log.writeln( 'Shell command was: ' + cmd );
+
+						const outputColorFn = error ? chalk.bgRed : chalk.green;
+						grunt.log.writeln( '' );
+						grunt.log.writeln( outputColorFn( 'Sync to ' ) + wp_install.name );
+						grunt.log.writeln( outputColorFn( 'Shell command was: ' ) + cmd );
+
 						if ( error ) {
 							grunt.log.error();
-							grunt.log.writeln( error.toString().red );
+							grunt.log.writeln( outputColorFn( error.toString() ) );
 							resolve( false );
 						} else {
-							grunt.log.ok();
+							grunt.log.writeln( outputColorFn( 'Sync successfull' ) );
 							resolve( true );
 						}
 					} );
+
 				} catch ( error ) {
 					grunt.log.writeln( '\n' + error.toString().red );
 					resolve( false );
