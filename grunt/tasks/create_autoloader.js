@@ -1,5 +1,8 @@
 const path = require('path');
-const { startCase } = require('lodash');
+const {
+	startCase,
+	kebabCase,
+} = require('lodash');
 
 const create_autoloader = grunt => {
 
@@ -7,7 +10,7 @@ const create_autoloader = grunt => {
 
 	grunt.registerMultiTask( 'create_autoloader', 'sub task: used by build', function() {
 
-		const project_class = startCase( pkg.funcPrefix ) + '_' + startCase( pkg.name ).replace( / /g, '_' );
+		const project_class = pkg.funcPrefix + '\\' + startCase( kebabCase( pkg.funcPrefix ) );
 
 		const dirs = grunt.file.expand( {
 			expand: true,

@@ -61,6 +61,8 @@ const startGrunt = grunt => {
 		excludeFromRoot: [
 			'!inc',
 			'!inc/**/*',
+			'!classes',
+			'!classes/**/*',
 			'!images',
 			'!images/**/*',
 			'!fonts',

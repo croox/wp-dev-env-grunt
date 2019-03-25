@@ -21,6 +21,15 @@ const stringReplace = grunt => {
 			}],
 		},
 
+		classes: {
+			files: [{
+				expand: true,
+				cwd: 'src/classes/',
+				src: ['**/*.php',...grunt.option( 'pattern' ).exclude],
+				dest: grunt.option( 'destination' ) + '/classes/'
+			}],
+		},
+
 		root: {
 			files: [{
 				expand: true,
@@ -61,6 +70,25 @@ const stringReplace = grunt => {
 				}],
 			},
 		} ),
+
+		// change the path to classes: remove 'src'
+		vendor_composer: {
+			options: {
+				replacements: [{
+					pattern: /\'\/src\/classes\//g,
+					replacement: '\'\/classes\/',
+				}],
+			},
+			files: [{
+				expand: true,
+				cwd: 'vendor/',
+				src: [
+					'autoload.php',
+					'composer/**/*',
+				],
+				dest: grunt.option( 'destination' ) + '/vendor',
+			}],
+		},
 
 		// // will replace string and update file in source. should only run on dist
 		// // usefull for phpDoc "@since wde_replace_version"

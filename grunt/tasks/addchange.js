@@ -24,6 +24,10 @@ const addchange = grunt => {
 
 		printChangesHeader( grunt, nextRelease );
 
+		grunt.log.writeln( '' );
+		grunt.log.writeln( 'Press ' + chalk.italic( 'ctrl + c' ) + ' to exit.' );
+		grunt.log.writeln( '' );
+
 		const done = this.async();
 
 		grunt.log.writeln( chalk.cyan( nextRelease.changes.length === 0 ? 'Add new change' : 'Add another change' ) );
@@ -104,10 +108,12 @@ const addchange = grunt => {
 
 		} ).then( newNextRelease => {
 			grunt.file.write( '.wde_nextRelease.json' , JSON.stringify( newNextRelease, null, 2) );
+			grunt.task.run( ['addchange'] );
 			done.apply()
 		} ).catch( e => {
-			grunt.warn( 'addchange... some error or canceled by user' );
-			grunt.warn( e );
+			grunt.log.writeln( 'addchange... some error or canceled by user' );
+			if ( e )
+				grunt.log.writeln( e );
 			done.apply();
 		} );
 

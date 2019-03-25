@@ -94,6 +94,19 @@ const watch = grunt => {
 			]
 		},
 
+		classes: {
+			files: [
+				'src/classes/**/*',
+				...grunt.option( 'pattern' ).exclude,
+			],
+			tasks: [
+				'string-replace:classes',
+				'composer_dumpAutoload',
+				'string-replace:vendor_composer',
+				...afterTasks,
+			]
+		},
+
 		js: {
 			files: [
 				'src/js/**/*.js',

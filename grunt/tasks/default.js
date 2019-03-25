@@ -46,7 +46,15 @@ const defaultTask = grunt => {
 			'	' + 'Bumps the ' + pkg.projectType + ' version and builds into ' + chalk.italic( './test_build' ) + '.',
 			'	' + '... ??? and some stuff more',
 			'',
-
+			chalk.yellow( 'grunt ' + 'phpcs[:script][:extensions]' ),
+			'	' + 'Run PHP_CodeSniffer to lint or format code in ' + chalk.italic( './src' ) + '.',
+			'	' + chalk.gray( 'script' ) + '		' + chalk.gray.italic( 'string: format || lint' ),
+			'	' + chalk.gray( 'extensions' ) + '	' + chalk.gray.italic( 'Comma separated list of file extensions. Default: "php"' ),
+			'',
+			chalk.yellow( 'grunt ' + 'format' ),
+			'	' + 'Run all formatting tasks.',
+			'	' + chalk.gray( 'currently included tasks:' ) + '		' + chalk.gray.italic( ['[\'phpcs:format\']'] ),
+			'',
 			...( consts.supportedHosts.includes( repoHost.name ) ? [
 
 				chalk.yellow( 'grunt ' + 'set_token' ),
@@ -56,7 +64,6 @@ const defaultTask = grunt => {
 				'	' + 'and on Windows they are managed by Credential Vault.',
 				'	' + 'see https://github.com/atom/node-keytar',
 				'',
-
 
 				chalk.yellow( 'grunt ' + 'remove_token' ),
 				'	' + 'Removes ' + repoHost.name + ' access token',
