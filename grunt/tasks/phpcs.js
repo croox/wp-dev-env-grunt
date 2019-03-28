@@ -3,10 +3,15 @@ const chalk = require('chalk');
 const childProcess = require('child_process');
 
 const phpCsCbfWrapper = ( grunt, bin, extensions ) => {
+
+	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
+
 	const options = [
+		'--standard=WordPress',
 		'--extensions=' + extensions,
+		'--runtime-set testVersion ' + pkg.phpRequiresAtLeast,
 		...( 'phpcbf' === bin ? ['-p', '-v'] : [] ),
-	].join( '' );
+	].join( ' ' );
 
 	const command = path.resolve( './vendor/squizlabs/php_codesniffer/bin/' + bin ) + ' ' + path.resolve( './src' ) + ' ' + options;
 

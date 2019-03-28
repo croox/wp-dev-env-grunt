@@ -37,6 +37,7 @@ const startGrunt = grunt => {
 		'grunt-po2json',
 		'grunt-pot',
 		'grunt-potomo',
+		'grunt-prettier',
 		'grunt-string-replace',
 		'grunt-wp-readme-to-markdown',
 		'gruntify-eslint',
@@ -101,4 +102,3 @@ const startGrunt = grunt => {
 };
 
 module.exports = startGrunt;
-
