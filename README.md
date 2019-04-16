@@ -9,27 +9,43 @@ Can't be used as an ordinary grunt plugin. Only in combintion with generator-wp-
 
 [@wordpress/hooks](https://www.npmjs.com/package/@wordpress/hooks) is used to create action and filter hooks.
 
-Hooks can be added in projects Gruntfile.js, after hooks are created and before grunt is started.
+Hooked function can be added to `./grunt/hooked/`. Each file should export a function named equally to the files basename, containing one or more hooked functions.
 
-Example Gruntfile:
-	'use strict';
+Example for `jcchavezs/cmb2-conditionals` support. `./grunt/hooked/addCmb2ConditionalsCopyTask.js`:
 
-	const {
-		startGrunt,
-		createHooks,
-	} = require( 'wp-dev-env-grunt' );
+	const addCmb2ConditionalsCopyTask = grunt => {
 
-	module.exports = grunt => {
-		createHooks( grunt );
+		// Add 'copy:vendor_cmb2_conditionals' to config copy
+		grunt.hooks.addFilter( 'config.copy', 'psr.config.copy', config => {
+			const newConfig = {
+				...config,
+				vendor_cmb2_conditionals: {
+					expand: true,
+					cwd: 'vendor/jcchavezs/cmb2-conditionals',
+					src: [
+						'**/*',
+						'!example-functions.php',
+					],
+					dest: grunt.option( 'destination' ) + '/vendor/jcchavezs/cmb2-conditionals',
+				},
+			};
+			return newConfig;
+		}, 10 );
 
-		grunt.hooks.addFilter( 'config.copy', 'someprefix.config.copy', config => {
-			// do something with the config object. Maybe log something:
-			grunt.log.writeln( config.vendor_composer.src );
-			return config;
-		}, 10 )
+		// Run 'copy:vendor_cmb2_conditionals' on priority 20
+		grunt.hooks.addFilter( 'tasks.build.tasks', 'psr.tasks.build.tasks', tasks => {
+			const newTasks = [
+				...tasks,
+				'copy:vendor_cmb2_conditionals',
+			];
+			return newTasks;
+		}, 20 );
 
-		startGrunt( grunt );
-	};
+	}
+
+	module.exports = addCmb2ConditionalsCopyTask;
+
+See `node_modules/wp-dev-env-grunt/grunt/hooked/addDefaultBuildTasks.js` for hooked default tasks and their priority.
 
 ### filter
 

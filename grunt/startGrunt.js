@@ -13,7 +13,16 @@ const setOptionChangelog = require('./setOptionChangelog');
 
 const startGrunt = grunt => {
 
+	// create wp like hooks if not already done
 	if ( ! grunt.hooks ) createHooks( grunt );
+
+	// load hooked functions
+	[
+		'node_modules/wp-dev-env-grunt/grunt/hooked/*.js',
+		'grunt/hooked/*.js',
+	].map( filepath => grunt.file.expand( {}, [
+		filepath
+	] ).filter( file => require( path.resolve( file ) )( grunt ) ) );
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
