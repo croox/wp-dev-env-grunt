@@ -41,8 +41,7 @@ const pot = grunt => {
 			options: {
 				...options,
 				language: 'PHP',
-				text_domain: pkg.textDomain + '-LOCALE',
-
+				text_domain: ( 'plugin' === pkg.projectType ? pkg.textDomain + '-' : '' ) + 'LOCALE',
 			},
 			files: [{
 				expand: true,
@@ -61,7 +60,7 @@ const pot = grunt => {
 			options: {
 				...options,
 				language: 'JavaScript',
-				text_domain: pkg.textDomain + '-LOCALE-' + handle,
+				text_domain: ( 'plugin' === pkg.projectType ? pkg.textDomain + '-' : '' ) + 'LOCALE-' + handle,
 			},
 			files: [{
 				expand: true,
