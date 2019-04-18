@@ -49,42 +49,43 @@ See `node_modules/wp-dev-env-grunt/grunt/hooked/addDefaultBuildTasks.js` for hoo
 
 ### filter
 
-startGrunt.option.pattern
-replacements.replacements
-config.browserify
-config.clean
-config.cleanempty
-config.compress
-config.concat					commonconfig
-config.copy
-config.create_autoloader
-config.css_purge
-config.eslint
-config.gitadd
-config.gitcommit
-config.gittag
-config.gitpush
-config.notify_hooks
-config.po2json
-config.pot.handles
-config.pot.options
-config.pot						handles		options
-config.potomo
-config.sass
-config.string-replace
-config.uglify
-config.watch
-config.wp_readme_to_markdown
-tasks.build.tasks
-tasks.dist.tasks
-tasks.sound.file
-tasks.sound.soundsPath
-tasks.sound.play
+	startGrunt.option.pattern
+	replacements.replacements
+	config.browserify
+	config.clean
+	config.cleanempty
+	config.compress
+	config.concat					commonconfig
+	config.copy
+	config.create_autoloader
+	config.css_purge
+	config.eslint
+	config.gitadd
+	config.gitcommit
+	config.gittag
+	config.gitpush
+	config.notify_hooks
+	config.po2json
+	config.pot.handles
+	config.pot.options
+	config.pot						handles		options
+	config.potomo
+	config.sass
+	config.string-replace
+	config.uglify
+	config.watch
+	config.wp_readme_to_markdown
+	tasks.build.tasks
+	tasks.dist.tasks
+	tasks.sound.file
+	tasks.sound.soundsPath
+	tasks.sound.play
 
 ### actions
-startGrunt.loadTasks.before
-startGrunt.loadTasks.after
-startGrunt.initOptions.before
-startGrunt.initOptions.after
-updateConfigs.before
-updateConfigs.after
+
+	startGrunt.loadTasks.before
+	startGrunt.loadTasks.after
+	startGrunt.initOptions.before
+	startGrunt.initOptions.after
+	updateConfigs.before
+	updateConfigs.after

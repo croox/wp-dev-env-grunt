@@ -36,19 +36,6 @@ const copy = grunt => {
 			dest: grunt.option( 'destination' ) + '/',
 		},
 
-		vendor_cmb2: {
-			expand: true,
-			cwd: 'vendor/cmb2/cmb2',
-			src: [
-				'**/*',
-				'!example-functions.php',
-				'!**/*.po',
-				'!**/*.pot',
-				'!css/sass/**/*',
-			],
-			dest: grunt.option( 'destination' ) + '/vendor/cmb2/cmb2',
-		},
-
 		vendor_croox_wde_frame: {
 			expand: true,
 			cwd: 'vendor/croox/wp-dev-env-frame',

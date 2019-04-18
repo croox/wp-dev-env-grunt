@@ -24,11 +24,11 @@ const addDefaultBuildTasks = grunt => {
 				'copy:root',
 			],
 		},
+		// hook copy tasks for vendor dirs on priority 20
 		{
 			priority: 20,
 			tasks: [
 				'copy:vendor_croox_wde_frame',
-				'copy:vendor_cmb2',
 				'string-replace:vendor_composer',
 			],
 		},
