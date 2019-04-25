@@ -16,7 +16,7 @@ Example for `jcchavezs/cmb2-conditionals` support. `./grunt/hooked/addCmb2Condit
 	const addCmb2ConditionalsCopyTask = grunt => {
 
 		// Add 'copy:vendor_cmb2_conditionals' to config copy
-		grunt.hooks.addFilter( 'config.copy', 'psr.config.copy', config => {
+		grunt.hooks.addFilter( 'config.copy', 'myprefix.config.copy', config => {
 			const newConfig = {
 				...config,
 				vendor_cmb2_conditionals: {
@@ -33,7 +33,7 @@ Example for `jcchavezs/cmb2-conditionals` support. `./grunt/hooked/addCmb2Condit
 		}, 10 );
 
 		// Run 'copy:vendor_cmb2_conditionals' on priority 20
-		grunt.hooks.addFilter( 'tasks.build.tasks', 'psr.tasks.build.tasks', tasks => {
+		grunt.hooks.addFilter( 'tasks.build.tasks', 'myprefix.tasks.build.tasks', tasks => {
 			const newTasks = [
 				...tasks,
 				'copy:vendor_cmb2_conditionals',
