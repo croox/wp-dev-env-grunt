@@ -60,7 +60,7 @@ const pot = grunt => {
 			options: {
 				...options,
 				language: 'JavaScript',
-				text_domain: ( 'plugin' === pkg.projectType ? pkg.textDomain + '-' : '' ) + 'LOCALE-' + handle,
+				text_domain: pkg.textDomain + '-' + 'LOCALE-' + handle,
 			},
 			files: [{
 				expand: true,
@@ -76,6 +76,15 @@ const pot = grunt => {
 
 	} );
 
+	/**
+	 * config.pot
+	 *
+	 * ???
+	 *
+	 * @param {object}		$config		bla bla.
+	 * @param {array}		$handles	bla bla.
+	 * @param {object}		$options	bla bla.
+	 */
 	config = grunt.hooks.applyFilters( 'config.pot', config, handles, options );
 
 	grunt.config( 'pot', config );

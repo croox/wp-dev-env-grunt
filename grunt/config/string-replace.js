@@ -2,7 +2,6 @@ const path = require('path');
 
 const replacements = require("../replacements");
 
-
 const stringReplace = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );

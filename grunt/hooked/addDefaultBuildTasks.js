@@ -22,6 +22,8 @@ const addDefaultBuildTasks = grunt => {
 			priority: 15,
 			tasks: [
 				'copy:root',
+				'copy:images',
+				'copy:fonts',
 			],
 		},
 		// hook copy tasks for vendor dirs on priority 20
