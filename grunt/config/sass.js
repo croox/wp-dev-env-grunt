@@ -1,31 +1,25 @@
 const path = require('path');
 
+const nodesass = require('node-sass');
+
 const sass = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
 	const options = {
-		// // require: [
-		// // 	// 'susy',
-		// // 	// 'breakpoint'
-		// // ],
-		// loadPath: [
-		// 	// require('node-bourbon').includePaths,
-		// 	// 'node_modules/bootstrap-sass/assets/stylesheets',
-		// 	// 'node_modules/backgrid/src'
-		// 	// 'node_modules/hamburgers/_sass',
-		// ]
+		includePaths: [],
+		implementation: nodesass,
+		importer: undefined,
 
-		sourcemap: 'auto',
-		style: 'expanded',
-		lineNumbers: true,
+		outputStyle: 'expanded',
+		sourceMap: true,
+		sourceComments: true,
 
 		...( grunt.option( 'compress' ) && {
-			sourcemap: 'none',
-			style: 'compressed',
-			lineNumbers: false,
+			outputStyle: 'compressed',
+			sourceMap: false,
+			sourceComments: false,
 		} ),
-
 	};
 
 	const config = grunt.hooks.applyFilters( 'config.sass', {

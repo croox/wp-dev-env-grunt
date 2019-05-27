@@ -37,7 +37,7 @@ const startGrunt = grunt => {
 		'grunt-contrib-compress',
 		'grunt-contrib-concat',
 		'grunt-contrib-copy',
-		'grunt-contrib-sass',
+		'grunt-sass',
 		'grunt-contrib-uglify-es',
 		'grunt-contrib-watch',
 		'grunt-css-purge',
