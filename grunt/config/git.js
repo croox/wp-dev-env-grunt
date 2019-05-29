@@ -70,6 +70,20 @@ const git = grunt => {
 	} );
 	grunt.config( 'gitpush', configGitpush ) ;
 
+	const configGitcheckout = grunt.hooks.applyFilters( 'config.gitcheckout', {
+		master: {
+			options: {
+				branch: 'master',
+			}
+		},
+		develop: {
+			options: {
+				branch: 'develop',
+			}
+		},
+	} );
+	grunt.config( 'gitcheckout', configGitcheckout ) ;
+
 };
 
 module.exports = git;

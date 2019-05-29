@@ -26,9 +26,6 @@ const getNextRelease = grunt => {
 			// other error, may be parsing. show error and exit
 			grunt.log.writeln( '' );
 			grunt.log.error( chalk.red.bold( 'Can\'t read/parse ' + fileName ) );
-			grunt.log.writeln( '' );
-			grunt.log.writeln( 'Error message:' );
-			grunt.log.writeln( '' );
 			grunt.log.writeln( err );
 			grunt.log.writeln( '' );
 			grunt.fail.fatal( ' ' );

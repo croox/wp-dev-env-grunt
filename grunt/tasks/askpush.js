@@ -4,15 +4,9 @@ const getRepoInfo = require('../getRepoInfo');
 
 const askpush = grunt => {
 
-	grunt.registerTask( 'askpush', 'sub task: used by dist, ask to git push', function() {
+	grunt.registerMultiTask( 'askpush', 'sub task: used by dist, ask to git push', function() {
 
 		const repoInfo = getRepoInfo( grunt );
-
-		[
-			'',
-			chalk.green( 'Hurray, almost done ...'),
-			'',
-		].map( str => grunt.log.writeln( str ) );
 
 		const done = this.async();
 
@@ -20,10 +14,12 @@ const askpush = grunt => {
 			{
 				type: 'toggle',
 				name: 'shouldPush',
-				message: chalk.yellow( 'Push repository' + ( repoInfo
-					? ' and publish a new release'
-					: ''
-				) ),
+				message: chalk.yellow( 'Push current branch'
+					+ ( 'withRelease' === this.target && repoInfo
+						? ' and publish a new release'
+						: ''
+					)
+				),
 				initial: true,
 		} ] ).then( answers => {
 
@@ -31,7 +27,7 @@ const askpush = grunt => {
 				grunt.task.run( [
 					'gitpush:commit',
 					'gitpush:tags',
-					...( repoInfo ? [
+					...( 'withRelease' === this.target && repoInfo ? [
 						'create_release',
 					] : [] ),
 				] );

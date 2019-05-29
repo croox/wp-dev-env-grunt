@@ -46,17 +46,43 @@ const dist = grunt => {
 
 		let gitStatus;
 
-		const checkStaged = status => status.staged.length === 0 ? new Promise( ( resolve, reject ) => prompt( [
-			{
-				type: 'toggle',
-				name: 'proceed',
-				message: chalk.yellow( 'Nothing staged. Proceed dist task?' ),
-			},
-		] ).then( answers => answers.proceed ? resolve() : reject() ).catch( e => {
-			grunt.log.writeln( 'checkStaged ....  what happend? Did you kill the process?' );
-			grunt.log.writeln( e );
-			reject( done.apply() );
-		} ) ) : true;
+		const checkStatus = status => {
+
+			if ( ! status.current.startsWith( 'release-' ) ) {
+				grunt.warn( 'Current branch has to start with "release-"' );
+			}
+
+			if ( status.staged.length === 0 ) {
+				return new Promise( ( resolve, reject ) => prompt( [
+					{
+						type: 'toggle',
+						name: 'proceed',
+						message: chalk.yellow( 'Nothing staged. Proceed dist task?' ),
+					},
+				] ).then( answers => answers.proceed ? resolve() : reject() ).catch( e => {
+					grunt.log.writeln( 'checkStatus ....  what happend? Did you kill the process?' );
+					grunt.log.writeln( e );
+					reject( done.apply() );
+				} ) )
+			}
+
+			return true;
+		};
+
+		/*
+		const switchBranch = () => {
+			return new Promise( ( resolve, reject ) => {
+				simpleGit.checkout( 'master', ( err, res  ) => {
+					if ( err )
+						reject( err );
+					grunt.log.writeln( '' );
+					grunt.log.writeln( 'Switched to branch ' + chalk.bgBlack( 'master' ) );
+					grunt.log.writeln( '' );
+					resolve( res );
+				} );
+			} ).catch( e => grunt.log.warn( e ) );
+		};
+		*/
 
 		const getDistInfo = () => new Promise( ( resolve, reject ) =>
 			prompt( [
@@ -162,6 +188,7 @@ const dist = grunt => {
 
 			grunt.option( 'destination', 'dist/trunk' );
 			grunt.option( 'compress', true );
+			grunt.option( 'current_release_branch', gitStatus.current );
 			setOptionChangelog( grunt, changelog );
 			grunt.option( 'commitmsg', newRelease.toString().replace( '\n', '\n\n' ) );
 			setOptionRelease( grunt, newRelease );
@@ -172,7 +199,7 @@ const dist = grunt => {
 		};
 
 		new Promise( ( resolve, reject ) => simpleGit.status( ( err, status ) => resolve( gitStatus = status ) ) )
-		.then( checkStaged )
+		.then( checkStatus )
 		.then( getDistInfo )
 		.then( checkChanges )
 		.then( incVersion )
@@ -190,9 +217,14 @@ const dist = grunt => {
 				'compress:trunk_to_releases',
 				'gitadd:ondist',
 				'gitcommit:ondist',
+				'gitcheckout:master',
+				'git_merge:current_release_branch',
 				'gittag:ondist',
 				'sound:fanfare',
-				'askpush',
+				'askpush:withRelease',
+				'gitcheckout:develop',
+				'git_merge:current_release_branch',
+				'askpush:push',
 			] );
 
 			grunt.task.run( tasks );
