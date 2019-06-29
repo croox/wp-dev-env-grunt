@@ -48,8 +48,8 @@ const dist = grunt => {
 
 		const checkStatus = status => {
 
-			if ( ! status.current.startsWith( 'release-' ) ) {
-				grunt.warn( 'Current branch has to start with "release-"' );
+			if ( ! status.current.startsWith( 'release-' ) || ! status.current.startsWith( 'hotfix-' ) ) {
+				grunt.warn( 'Current branch has to start with "release-" or "hotfix-"' );
 			}
 
 			if ( status.staged.length === 0 ) {
@@ -68,21 +68,6 @@ const dist = grunt => {
 
 			return true;
 		};
-
-		/*
-		const switchBranch = () => {
-			return new Promise( ( resolve, reject ) => {
-				simpleGit.checkout( 'master', ( err, res  ) => {
-					if ( err )
-						reject( err );
-					grunt.log.writeln( '' );
-					grunt.log.writeln( 'Switched to branch ' + chalk.bgBlack( 'master' ) );
-					grunt.log.writeln( '' );
-					resolve( res );
-				} );
-			} ).catch( e => grunt.log.warn( e ) );
-		};
-		*/
 
 		const getDistInfo = () => new Promise( ( resolve, reject ) =>
 			prompt( [

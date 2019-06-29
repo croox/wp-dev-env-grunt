@@ -21,8 +21,8 @@ const getRepoInfo = require('./getRepoInfo');
  *	 "installSlug": {
  *		 "args": [
  *			 // possible top repend `!`
- *			 // example, disable the verbose output:
- *			 "!--verbose",
+ *			 // example, ensable the verbose output but don't show stats:
+ *			 "--verbose",
  *			 "!--stats",
  *		 ],
  *		 "plugins": "abs_path/to/local_wp/wp-content/plugins/",
@@ -45,7 +45,7 @@ const getRepoInfo = require('./getRepoInfo');
  *			name: installSlug,
  *	 		dest: path_to_theme_or_plugin_dir/repo_name,
  *			args: [
- *				'!--verbose',
+ *				'--verbose',
  *				'!--stats',
  * 			],
  *		},{

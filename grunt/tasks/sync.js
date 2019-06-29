@@ -70,9 +70,7 @@ const sync = grunt => {
 						[...get( wp_install, ['args'], [] )].filter( arg => ! arg.startsWith( '!' ) ),
 						[
 							'--archive',
-							'--verbose',
 							'--stats',
-							'--progress',
 						]
 					).filter( arg => ! excludeArgs.includes( arg ) );
 
