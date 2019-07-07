@@ -16,7 +16,13 @@ const sass = grunt => {
 		sourceComments: true,
 
 		...( grunt.option( 'compress' ) && {
-			outputStyle: 'compressed',
+			// outputStyle: 'compressed',
+			// Can't use 'compressed' here.
+			// Because exits with `Fatal error: argument `$color` of `darken($color, $amount)` must be a color`
+			// for things like this `color-yiq( darken( color( #{ $_color } ), 5% ) );`.
+			// But it work's with 'expanded' outputStyle.
+			// It will be purged anyway if the `compress` flag is set.
+
 			sourceMap: false,
 			sourceComments: false,
 		} ),
