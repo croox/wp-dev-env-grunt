@@ -48,7 +48,10 @@ const dist = grunt => {
 
 		const checkStatus = status => {
 
-			if ( ! status.current.startsWith( 'release-' ) || ! status.current.startsWith( 'hotfix-' ) ) {
+			if ( ! [
+				'release-',
+				'hotfix-',
+			].reduce( ( acc, str ) => acc ? acc : status.current.startsWith( str ), false ) ) {
 				grunt.warn( 'Current branch has to start with "release-" or "hotfix-"' );
 			}
 
