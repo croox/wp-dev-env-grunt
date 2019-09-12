@@ -3,11 +3,19 @@ const path = require('path');
 
 const browserify = grunt => {
 
+	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
+
 	const options = {
 		transform: [
 			[ path.resolve( 'node_modules/babelify' ), {
 				global: true,
-				plugins: [],
+				plugins: [
+					[
+						path.resolve( 'node_modules/@wordpress/babel-plugin-makepot' ),{
+							output: path.resolve( 'src/languages/' + pkg.funcPrefix + '-LOCALE-handle.pot' )
+						}
+					]
+				],
 				presets: [
 					path.resolve( 'node_modules/@babel/preset-env' ),
 					path.resolve( 'node_modules/@babel/preset-react' ),
