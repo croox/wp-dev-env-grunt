@@ -8,30 +8,29 @@ const setupHooks = grunt => {
 	let changed = [];
 
 	const updateConfig = ( changedFiles, ext, configKey ) => {
-
-		if ( 'js' === ext )
-			grunt.config('eslint.src.src', changedFiles );
-
 		const config = grunt.config( configKey )[0];
 
+		// update eslint config, if js files changed
+		if ( 'js' === ext.split('.').reverse()[0] ) {
+			grunt.config( 'eslint.src.src', changedFiles.map( file => 'src/js/' + file ) );
+		}
+		// find entry files (~files in cwd root), and write them to our config object
 		config.src = [];
 		[...changedFiles].map( filepath => {
-
 			if ( -1 !== filepath.indexOf('/') ) {
 				const rootFileMayBe = filepath.substring( 0, filepath.indexOf('/') ) + '.' + ext;
 				config.src.push( rootFileMayBe );
-
-				grunt.file.exists( 'src/' + ext + '/' + rootFileMayBe )
+				grunt.file.exists( config.cwd + '/' + rootFileMayBe )
 					? grunt.option( 'silent', false )
 					: grunt.option( 'silent', true );
-
 			} else {
-				config.src.push( filepath );
+				// config.src.push( filepath );
+				config.src.push( path.basename( filepath, path.extname( filepath ) ) + '.' + ext );
 				grunt.option( 'silent', false );
 			}
-
 		} );
 
+		// update config
 		grunt.config( configKey, [config] );
 	};
 
@@ -42,12 +41,14 @@ const setupHooks = grunt => {
 			.filter( changedFile => ['.js','.jsx'].includes(  path.extname( changedFile ) ) )
 			.map( changedFile => changedFile.replace( 'src/js/', ''  ) );
 		updateConfig( changedJs, 'js', 'browserify.all.files' );
+		updateConfig( changedJs, 'min.js', 'uglify.destination.files' );
 
 		// scss
 		const changedScss = [...changed]
 			.filter( changedFile => ['.scss'].includes(  path.extname( changedFile ) ) )
 			.map( changedFile => changedFile.replace( 'src/scss/', ''  ) );
 		updateConfig( changedScss, 'scss', 'sass.all.files' );
+		updateConfig( changedScss, 'min.css', 'css_purge.destination.files' );
 
 		changed = [];	// reset
 
