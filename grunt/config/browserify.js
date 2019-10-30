@@ -7,6 +7,10 @@ const browserify = grunt => {
 
 	const options = {
 		transform: [
+			[ path.resolve( 'node_modules/loose-envify' ), {
+				global: true,
+				NODE_ENV: grunt.option( 'compress' ) ? 'production' : 'development',
+			} ],
 			[ path.resolve( 'node_modules/babelify' ), {
 				global: true,
 				plugins: [
@@ -20,8 +24,10 @@ const browserify = grunt => {
 					path.resolve( 'node_modules/@babel/preset-env' ),
 					path.resolve( 'node_modules/@babel/preset-react' ),
 				],
-			}],
-			[ path.resolve( 'node_modules/browserify-shim' ), { global: true } ],
+			} ],
+			[ path.resolve( 'node_modules/browserify-shim' ), {
+				global: true,
+			} ],
 		],
 		browserifyOptions: {
 			debug: ! grunt.option( 'compress' ),

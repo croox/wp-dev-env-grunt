@@ -1,6 +1,6 @@
 {
 	"name": "wp-dev-env-grunt",
-	"version": "0.8.6",
+	"version": "0.8.7",
 	"description": "Grunt environment for WordPress Plugins/Themes/Childthemes generated with generator-wp-dev-env",
 	"main": "index.js",
 	"homepage": "https://github.com/croox/wp-dev-env-grunt",
@@ -53,6 +53,7 @@
 		"keytar": "^4.4.1",
 		"load-grunt-tasks": "^4.0.0",
 		"lodash": "^4.17.15",
+		"loose-envify": "^1.4.0",
 		"node-sass": "^4.12.0",
 		"parent-dirs": "^1.0.0",
 		"play-sound": "^1.1.3",
