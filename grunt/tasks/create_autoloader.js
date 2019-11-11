@@ -44,7 +44,7 @@ const create_autoloader = grunt => {
 				'function ' + pkg.funcPrefix + '_include_' + dir + '() {',
 				'',
 				'	$paths = array(',
-				...[...files].map( file => '		\'/' + this.target + '/' + dir + '/' + file + '\','),
+				...[...files].map( file => '		\'' + this.target + '/' + dir + '/' + file + '\','),
 				'	);',
 				'',
 				'	if ( count( $paths ) > 0 ) {',
