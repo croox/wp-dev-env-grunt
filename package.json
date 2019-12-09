@@ -1,6 +1,6 @@
 {
 	"name": "wp-dev-env-grunt",
-	"version": "0.8.9",
+	"version": "0.9.0",
 	"description": "Grunt environment for WordPress Plugins/Themes/Childthemes generated with generator-wp-dev-env",
 	"main": "index.js",
 	"homepage": "https://github.com/croox/wp-dev-env-grunt",
@@ -42,7 +42,6 @@
 		"grunt-git": "^1.0.14",
 		"grunt-notify": "^0.4.5",
 		"grunt-po2json": "^0.3.0",
-		"grunt-pot": "^0.3.0",
 		"grunt-potomo": "^3.4.0",
 		"grunt-prettier": "^1.2.0",
 		"grunt-sass": "^3.0.2",
@@ -63,7 +62,8 @@
 		"rsyncwrapper": "^3.0.1",
 		"semver": "^6.0.0",
 		"simple-git": "^1.110.0",
-		"time-grunt": "^2.0.0"
+		"time-grunt": "^2.0.0",
+		"wp-pot": "^1.8.0"
 	},
 	"scripts": {
 		"test": "console.log('??? test missing')"

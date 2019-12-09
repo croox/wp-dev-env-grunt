@@ -44,7 +44,6 @@ const startGrunt = grunt => {
 		'grunt-git',
 		'grunt-notify',
 		'grunt-po2json',
-		'grunt-pot',
 		'grunt-potomo',
 		'grunt-prettier',
 		'grunt-string-replace',
