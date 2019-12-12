@@ -1,6 +1,6 @@
 const path = require('path');
-
 const nodesass = require('node-sass');
+const globImporter = require('node-sass-glob-importer');
 
 const sass = grunt => {
 
@@ -9,7 +9,7 @@ const sass = grunt => {
 	const options = {
 		includePaths: [],
 		implementation: nodesass,
-		importer: undefined,
+		importer: globImporter(),
 
 		outputStyle: 'expanded',
 		sourceMap: true,
