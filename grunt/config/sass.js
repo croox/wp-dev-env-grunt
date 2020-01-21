@@ -9,7 +9,9 @@ const sass = grunt => {
 	const options = {
 		includePaths: [],
 		implementation: nodesass,
-		importer: magicImporter(),
+		importer: magicImporter( {
+			disableImportOnce: true,
+		} ),
 
 		outputStyle: 'expanded',
 		sourceMap: true,
