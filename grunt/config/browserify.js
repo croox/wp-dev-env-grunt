@@ -15,14 +15,20 @@ const browserify = grunt => {
 				global: true,
 				plugins: [
 					[
-						path.resolve( 'node_modules/@wordpress/babel-plugin-makepot' ),{
+						path.resolve( 'node_modules/@wordpress/babel-plugin-makepot' ), {
 							output: path.resolve( 'src/languages/' + pkg.funcPrefix + '-LOCALE-handle.pot' )
 						}
-					]
+					],
+					[
+						path.resolve( 'node_modules/babel-plugin-emotion' ), {}
+					],
+					[
+						path.resolve( 'node_modules/babel-plugin-inline-json-import' ), {}
+					],
 				],
 				presets: [
 					path.resolve( 'node_modules/@babel/preset-env' ),
-					path.resolve( 'node_modules/@babel/preset-react' ),
+					path.resolve( 'node_modules/@wordpress/babel-preset-default' ),
 				],
 			} ],
 			[ path.resolve( 'node_modules/browserify-shim' ), {
