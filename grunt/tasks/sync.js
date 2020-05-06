@@ -1,4 +1,5 @@
 const path = require('path');
+const isCygwin = require('is-cygwin');
 const chalk = require('chalk');
 const rsync = require( 'rsyncwrapper' );
 const {
@@ -14,7 +15,7 @@ const getSyncSource = grunt => {
 
 	const version = get( grunt.option( 'sync' ), ['version'], 'test_build' );
 
-	var syncSource;
+	let syncSource = '';
 	if ( version === 'test_build' ){
 		syncSource = path.resolve('test_build') + path.sep;
 
@@ -28,6 +29,15 @@ const getSyncSource = grunt => {
 
 	} else {
 		grunt.warn('"' + version + '" is no valid version');
+	}
+
+	if ( isCygwin() ) {
+		syncSource = '/cygdrive/' + syncSource
+			.replace( /\\/g, '/' )
+			.replace( /^\S:\//g, match => match
+				.toLowerCase()
+				.replace( ':', '' )
+			);
 	}
 
 	return syncSource;

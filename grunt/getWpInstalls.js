@@ -1,4 +1,5 @@
 const path = require('path');
+const isCygwin = require('is-cygwin');
 const getParentDirs = require('parent-dirs');
 const {
 	get,
@@ -88,8 +89,12 @@ const getWpInstalls = ( grunt, installSlugs ) => {
 						...omit( get( installs, [installSlug] ), ['plugins','themes'] ),
 						name: installSlug,
 						dest: installPath.includes( '@' )
-							? path.join( installPath, repoName )
-							: path.resolve( installPath, repoName ),
+							? path.join( installPath, repoName )		// ??? missing test remote path and cygwin
+							: isCygwin()
+								? path.resolve( installPath, repoName )
+									.replace( /\\/g, '/' )
+									.replace( /^\S:\//g, '/' )
+								: path.resolve( installPath, repoName ),
 					} );
 				}
 			}
