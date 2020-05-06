@@ -1,5 +1,4 @@
 const path = require('path');
-const isCygwin = require('is-cygwin');
 const chalk = require('chalk');
 const rsync = require( 'rsyncwrapper' );
 const {
@@ -9,6 +8,7 @@ const {
 } = require( 'lodash' );
 
 const getWpInstalls = require('../getWpInstalls');
+const isCygwin = require('../isCygwin');
 
 // ??? recode this
 const getSyncSource = grunt => {

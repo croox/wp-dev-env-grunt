@@ -1,5 +1,4 @@
 const path = require('path');
-const isCygwin = require('is-cygwin');
 const getParentDirs = require('parent-dirs');
 const {
 	get,
@@ -9,6 +8,7 @@ const {
 } = require( 'lodash' );
 
 const getRepoInfo = require('./getRepoInfo');
+const isCygwin = require('./isCygwin');
 
 /**
  * Get wp installs
