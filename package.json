@@ -53,7 +53,7 @@
 		"keep-a-changelog": "^0.10.1",
 		"keytar": "^6.0.1",
 		"load-grunt-tasks": "^5.1.0",
-		"lodash": "^4.17.15",
+		"lodash": "^4.17.19",
 		"loose-envify": "^1.4.0",
 		"node-sass": "^4.14.1",
 		"node-sass-magic-importer": "^5.3.2",
