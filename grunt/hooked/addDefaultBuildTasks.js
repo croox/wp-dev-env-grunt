@@ -72,6 +72,7 @@ const addDefaultBuildTasks = grunt => {
 					'uglify:destination',
 					'css_purge:destination',
 				] : [] ),
+				'css_properties',
 			],
 		},
 		{
