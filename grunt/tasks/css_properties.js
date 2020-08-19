@@ -1,4 +1,5 @@
 const path = require('path');
+const toHex = require('colornames')
 
 const css_properties = grunt => {
 
@@ -54,7 +55,11 @@ const css_properties = grunt => {
 			'	return Arr::get( array(',
 			...[...Object.keys( properties )].map( file => {
 				const inner = [...Object.keys( properties[file] )]
-					.map( key => '			\'' + key + '\' => \'' + properties[file][key] + '\',' ).join( '\n' )
+					.map( key => {
+						let hex = toHex( properties[file][key] );
+						hex = hex != undefined ? hex : properties[file][key];
+						return '			\'' + key + '\' => \'' + hex + '\',';
+					} ).join( '\n' )
 				return '		\'' + file + '\' => array( \n'  + inner + ' \n		),'
 			} ),
 			'	), array( $filename, $key ) );',
