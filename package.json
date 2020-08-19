@@ -67,6 +67,7 @@
 		"semver": "^7.3.2",
 		"simple-git": "^2.18.0",
 		"time-grunt": "^2.0.0",
+		"websocket-extensions": "^0.1.4",
 		"wp-pot": "^1.9.3"
 	},
 	"scripts": {
