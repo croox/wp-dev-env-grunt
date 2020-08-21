@@ -36,13 +36,13 @@ const composer_dumpAutoload = grunt => {
 				p1 + '} else {',
 				p1 + '	$loader->classMap = ' + p2 + ';',
 				p1 + '}',
-			].join( '\n' ) );
+			].join( '\n' ) ) );
 
 			// Print result
 			[
 				 result.stdout,
 				 result.stderr,
-			].map( str => grunt.log.writeln( chalk.green( str ) ) )
+			].map( str => grunt.log.writeln( chalk.green( str ) ) );
 
 			done.apply();
 		} ) );
