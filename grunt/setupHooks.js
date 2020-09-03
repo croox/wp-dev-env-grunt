@@ -17,17 +17,22 @@ const setupHooks = grunt => {
 		// find entry files (~files in cwd root), and write them to our config object
 		config.src = [];
 		[...changedFiles].map( filepath => {
-			if ( -1 !== filepath.indexOf('/') ) {
-				const rootFileMayBe = filepath.substring( 0, filepath.indexOf('/') ) + '.' + ext;
-				config.src.push( rootFileMayBe );
-				grunt.file.exists( config.cwd + '/' + rootFileMayBe )
+			let files = -1 !== filepath.indexOf('/')
+				? [filepath.substring( 0, filepath.indexOf('/') ) + '.' + ext]
+				: [path.basename( filepath, path.extname( filepath ) ) + '.' + ext];
+
+			files = grunt.hooks.applyFilters( 'onWatchChange.files', files, {
+				filepath,
+				ext,
+				configKey,
+			} );
+
+			[...files].map( file => {
+				config.src.push( file );
+				grunt.file.exists( config.cwd + '/' + file )
 					? grunt.option( 'silent', false )
 					: grunt.option( 'silent', true );
-			} else {
-				// config.src.push( filepath );
-				config.src.push( path.basename( filepath, path.extname( filepath ) ) + '.' + ext );
-				grunt.option( 'silent', false );
-			}
+			} );
 		} );
 
 		// update config
