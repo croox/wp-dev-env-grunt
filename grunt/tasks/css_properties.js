@@ -28,7 +28,8 @@ const css_properties = grunt => {
 			properties[basename] = {}
 
 			propertiesCss[0]
-				.match( /--([a-z0-1\-]*?):\s*?([\s\S]+?)(?=;)/g )
+				.replace( /([^;])}$/g, '$1;}' )										// Add last missing semicolon, for compressed css.
+				.match( /--([a-z0-1\-]*?):\s*?([\s\S]+?)(?=;)/g )					// Match all properties
 				.map( a => a.replace( /^--/g, '' ).split( /:\s*?/ ) )
 				.map( a => { properties[basename][a[0].trim()] = a[1].trim() } );
 		} );
