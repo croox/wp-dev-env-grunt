@@ -1,6 +1,6 @@
 {
 	"name": "wp-dev-env-grunt",
-	"version": "0.11.2",
+	"version": "0.11.3",
 	"description": "Grunt environment for WordPress Plugins/Themes/Childthemes generated with generator-wp-dev-env",
 	"main": "index.js",
 	"homepage": "https://github.com/croox/wp-dev-env-grunt",
@@ -17,14 +17,14 @@
 		"wp-dev-env"
 	],
 	"dependencies": {
-		"@babel/core": "^7.11.1",
+		"@babel/core": "^7.13.1",
 		"@babel/plugin-syntax-dynamic-import": "^7.8.3",
-		"@babel/preset-env": "^7.11.0",
-		"@wordpress/babel-plugin-makepot": "^3.7.0",
-		"@wordpress/babel-preset-default": "^4.17.0",
-		"@wordpress/hooks": "^2.9.0",
+		"@babel/preset-env": "^7.13.5",
+		"@wordpress/babel-plugin-makepot": "^3.10.0",
+		"@wordpress/babel-preset-default": "^4.20.0",
+		"@wordpress/hooks": "^2.11.1",
 		"babel-eslint": "^10.1.0",
-		"babel-plugin-emotion": "^10.0.33",
+		"babel-plugin-emotion": "^10.2.2",
 		"babel-plugin-inline-json-import": "^0.3.2",
 		"babelify": "10.0.0",
 		"browserify-shim": "^3.8.14",
@@ -51,10 +51,10 @@
 		"grunt-string-replace": "^1.3.1",
 		"grunt-wp-readme-to-markdown": "^2.0.1",
 		"gruntify-eslint": "^5.0.0",
-		"keep-a-changelog": "^0.10.1",
+		"keep-a-changelog": "^0.10.3",
 		"keytar": "^6.0.1",
 		"load-grunt-tasks": "^5.1.0",
-		"lodash": "^4.17.20",
+		"lodash": "^4.17.21",
 		"loose-envify": "^1.4.0",
 		"node-sass": "^4.14.1",
 		"node-sass-magic-importer": "^5.3.2",
@@ -64,11 +64,11 @@
 		"request": "^2.88.2",
 		"request-promise-native": "^1.0.9",
 		"rsyncwrapper": "^3.0.1",
-		"semver": "^7.3.2",
-		"simple-git": "^2.18.0",
+		"semver": "^7.3.4",
+		"simple-git": "^2.35.2",
 		"time-grunt": "^2.0.0",
 		"websocket-extensions": "^0.1.4",
-		"wp-pot": "^1.9.3"
+		"wp-pot": "^1.9.8"
 	},
 	"scripts": {
 		"test": "console.log('??? test missing')"
