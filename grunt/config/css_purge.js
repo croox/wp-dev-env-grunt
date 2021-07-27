@@ -19,7 +19,7 @@ const css_purge = grunt => {
 				"shorten_zero": true,
 				"shorten_hexcolor": true,
 				"shorten_hexcolor_extended_names": true,
-				"shorten_hexcolor_UPPERCASE": true,
+				"shorten_hexcolor_UPPERCASE": false,		// false, otherwise it will capitalize rules like: var(--green)
 				"shorten_font": true,
 				"shorten_background": true,
 				"shorten_background_min": 2,
