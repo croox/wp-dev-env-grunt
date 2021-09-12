@@ -60,6 +60,10 @@ const webpackConfig = grunt => {
 							},
 						},
 					},
+					{
+						test: /\.css$/i,
+						use: ["style-loader", "css-loader"],
+					},
 				],
 			},
 		},
