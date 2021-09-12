@@ -7,7 +7,31 @@ const setupHooks = grunt => {
 
 	let changed = [];
 
-	const updateConfig = ( changedFiles, ext, configKey ) => {
+	const updateConfigJs = ( changedFiles, ext ) => {
+		// update eslint config, if js files changed
+		if ( 'js' === ext.split('.').reverse()[0] ) {
+			grunt.config( 'eslint.src.src', changedFiles.map( file => 'src/js/' + file ) );
+		}
+		// find entry files.
+		let newEntry = [...changedFiles].reduce( ( acc, filepath ) => {
+			let filename = -1 !== filepath.indexOf('/')
+				? filepath.substring( 0, filepath.indexOf('/') ) + '.' + ext
+				: path.basename( filepath, path.extname( filepath ) ) + '.' + ext;
+			if ( grunt.file.exists( path.resolve( 'src/js/' + filename ) ) ) {
+				return {
+					...acc,
+					[path.basename( filename, path.extname( filename ) )]: path.resolve( '/src/js/' + filename ),
+				};
+			} else {
+				return acc;
+			}
+		}, {} );
+		newEntry = grunt.hooks.applyFilters( 'onWatchChangeJs.files', newEntry );
+		// update config
+		grunt.config( 'webpack.all.entry', newEntry );
+	};
+
+	const updateConfigScss = ( changedFiles, ext, configKey ) => {
 		const config = grunt.config( configKey )[0];
 
 		// update eslint config, if js files changed
@@ -21,10 +45,9 @@ const setupHooks = grunt => {
 				? [filepath.substring( 0, filepath.indexOf('/') ) + '.' + ext]
 				: [path.basename( filepath, path.extname( filepath ) ) + '.' + ext];
 
-			files = grunt.hooks.applyFilters( 'onWatchChange.files', files, {
+			files = grunt.hooks.applyFilters( 'onWatchChangeScss.files', files, {
 				filepath,
 				ext,
-				configKey,
 			} );
 
 			[...files].map( file => {
@@ -45,15 +68,14 @@ const setupHooks = grunt => {
 		const changedJs = [...changed]
 			.filter( changedFile => ['.js','.jsx'].includes(  path.extname( changedFile ) ) )
 			.map( changedFile => changedFile.replace( 'src/js/', ''  ) );
-		updateConfig( changedJs, 'js', 'browserify.all.files' );
-		updateConfig( changedJs, 'min.js', 'uglify.destination.files' );
+		updateConfigJs( changedJs, 'js' );
 
 		// scss
 		const changedScss = [...changed]
 			.filter( changedFile => ['.scss'].includes(  path.extname( changedFile ) ) )
 			.map( changedFile => changedFile.replace( 'src/scss/', ''  ) );
-		updateConfig( changedScss, 'scss', 'sass.all.files' );
-		updateConfig( changedScss, 'min.css', 'css_purge.destination.files' );
+		updateConfigScss( changedScss, 'scss', 'sass.all.files' );
+		updateConfigScss( changedScss, 'min.css', 'css_purge.destination.files' );
 
 		changed = [];	// reset
 

@@ -115,8 +115,7 @@ const watch = grunt => {
 			],
 			tasks: [
 				'eslint:src',
-				'browserify:all',
-				...( grunt.option( 'compress' ) ? ['uglify:destination'] : [] ),
+				'webpack:all',
 				...afterTasks,
 			],
 		},

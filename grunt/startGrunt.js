@@ -31,14 +31,13 @@ const startGrunt = grunt => {
 	require('time-grunt')(grunt);
 
 	[
-		'grunt-browserify',
+		'grunt-webpack',
 		'grunt-cleanempty',
 		'grunt-contrib-clean',
 		'grunt-contrib-compress',
 		'grunt-contrib-concat',
 		'grunt-contrib-copy',
 		'grunt-sass',
-		'grunt-contrib-uglify-es',
 		'grunt-contrib-watch',
 		'grunt-css-purge',
 		'grunt-git',

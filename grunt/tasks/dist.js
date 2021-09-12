@@ -201,7 +201,6 @@ const dist = grunt => {
 				] : [] ),
 				'build',
 				'eslint:dest',
-				'uglify:destination',
 				'css_purge:destination',
 				'copy:trunkToTags',
 				'compress:trunk_to_releases',

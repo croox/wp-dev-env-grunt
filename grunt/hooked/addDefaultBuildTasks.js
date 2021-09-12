@@ -52,7 +52,7 @@ const addDefaultBuildTasks = grunt => {
 			priority: 40,
 			tasks: [
 				'eslint:src',
-				'browserify',
+				'webpack',
 			],
 		},
 		{
@@ -69,7 +69,6 @@ const addDefaultBuildTasks = grunt => {
 			tasks: [
 				'sass:all',
 				...( grunt.option( 'compress' ) ? [
-					'uglify:destination',
 					'css_purge:destination',
 				] : [] ),
 				'css_properties',
