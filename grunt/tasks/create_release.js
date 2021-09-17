@@ -3,7 +3,7 @@ const chalk = require('chalk');
 const path = require('path');
 const getRepoInfo = require('../getRepoInfo');
 const getToken = require('../getToken');
-const request = require('request-promise-native');
+const axios = require('axios');
 const ghReleaseAssets = require('gh-release-assets');
 const {
 	get,
@@ -29,13 +29,6 @@ const create_release = grunt => {
 			grunt.log.writeln( '' );
 			grunt.log.writeln( chalk.red( 'Skipped create_release' ) );
 			done.apply();
-		};
-
-		const requestOptions = {
-			headers: {
-				'User-Agent': pkg.name,
-			},
-			json: true,
 		};
 
 		const setTokenFirst = message => {
@@ -79,32 +72,34 @@ const create_release = grunt => {
 
 		const createRelease = token => {
 
-			request( {
-				...requestOptions,
-				method: 'POST',
-				uri: [
+			axios( {
+				url: [
 					'https://api.github.com',
 					'repos',
 					repoInfo.owner,
 					repoInfo.name,
-					'releases?access_token=' + token,
+					'releases'
 				].join( '/' ),
-				body: {
+				headers: {
+					'User-Agent': pkg.name,
+					Authorization: ('token ' + token),
+				},
+				method: 'post',
+				data: {
 					...grunt.option( 'release' ),
 					tag_name: pkg.version,
 				},
 			} )
 			.then( parsedBody => {
-
 				[
-					 chalk.green( 'Successfully created release ' ) + chalk.cyan( parsedBody.id ) + ' ' + chalk.yellow( parsedBody.name ),
-					 parsedBody.html_url,
+					 chalk.green( 'Successfully created release ' ) + chalk.cyan( parsedBody.data.id ) + ' ' + chalk.yellow( parsedBody.data.name ),
+					 parsedBody.data.html_url,
 				].map( string => grunt.log.writeln( string ) );
 
 				const fileName = repoInfo.name + '-' + pkg.version + '.zip';
 
 				ghReleaseAssets( {
-					url: parsedBody.upload_url,
+					url: parsedBody.data.upload_url,
 					token: [token],
 					assets: [
 						{
@@ -126,7 +121,7 @@ const create_release = grunt => {
 
 			} )
 			.catch( e => {
-				if ( 401 === e.statusCode ) {
+				if ( 401 === e.response.status ) {
 					setTokenFirst(
 						chalk.red( '401 Bad credentials ' ) +
 						'Token for ' + chalk.yellow( repoHostName ) + ' is wrong!'
@@ -145,24 +140,36 @@ const create_release = grunt => {
 			getToken( grunt ).then( token => {
 				if ( token && isString( token ) ) {
 
-					request( {
-						...requestOptions,
-						method: 'Get',
-						uri: [
+					axios(  {
+						url: [
 							'https://api.github.com',
 							'repos',
 							repoInfo.owner,
 							repoInfo.name,
 							'releases',
 							'tags',
-							pkg.version + '?access_token=' + token,
+							pkg.version,
 						].join( '/' ),
+						headers: {
+							'User-Agent': pkg.name,
+							Authorization: ('token ' + token),
+						},
+						method: 'get',
 					} ).then( res => {
 						grunt.log.writeln( '' );
 						grunt.log.writeln( chalk.yellow( 'Release is already existing' ) );
 						grunt.log.writeln( res.html_url );
 						skipTask();
-					} ).catch( e => createRelease( token ) );
+					} ).catch( e => {
+						if ( 404 == e.response.status ) {
+							createRelease( token );
+						} else {
+							grunt.log.writeln( 'Something went wrong. Not able to create release.' );
+							grunt.log.writeln( 'Status code:', e.response.status );
+							grunt.log.writeln( 'Error:', e.response.data );
+							skipTask();
+						}
+					} );
 
 				} else {
 					setTokenFirst( 'No token is set for ' + chalk.yellow( repoHostName ) );
