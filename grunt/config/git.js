@@ -11,6 +11,7 @@ const git = grunt => {
 					'.wde_nextRelease.json',
 					'CHANGELOG.md',
 					'package.json',
+					'package-lock.json',
 					'dist/trunk/*',
 					'src/languages/*.pot',
 					( 'plugin' === pkg.projectType ? [pkg.name + '.php'] : [] ),
