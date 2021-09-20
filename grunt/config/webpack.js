@@ -47,7 +47,7 @@ const webpackConfig = grunt => {
 										}
 									],
 									[
-										path.resolve( 'node_modules/babel-plugin-emotion' ), {}
+										path.resolve( 'node_modules/@emotion/babel-plugin' ), {}
 									],
 									[
 										path.resolve( 'node_modules/babel-plugin-inline-json-import' ), {}
