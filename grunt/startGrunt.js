@@ -44,7 +44,6 @@ const startGrunt = grunt => {
 		'grunt-notify',
 		'grunt-po2json',
 		'grunt-potomo',
-		'grunt-prettier',
 		'grunt-string-replace',
 		'grunt-wp-readme-to-markdown',
 		'gruntify-eslint',
