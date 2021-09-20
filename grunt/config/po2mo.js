@@ -1,9 +1,9 @@
 
-const potomo = grunt => {
+const po2mo = grunt => {
 
-	const config = grunt.hooks.applyFilters( 'config.potomo', {
+	const config = grunt.hooks.applyFilters( 'config.po2mo', {
 		options: {
-			poDel: false
+            deleteSrc: false,
 		},
 		main: {
 			files: [{
@@ -17,9 +17,9 @@ const potomo = grunt => {
 		},
 	} );
 
-	grunt.config( 'potomo', config );
+	grunt.config( 'po2mo', config );
 
 };
 
-module.exports = potomo;
+module.exports = po2mo;
 

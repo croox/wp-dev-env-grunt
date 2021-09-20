@@ -79,7 +79,7 @@ const addDefaultBuildTasks = grunt => {
 			tasks: [
 				'pot',
 				...( grunt.file.expand( { cwd: 'src/languages/' }, ['*.po'] ).length ? [
-					'potomo',
+					'po2mo',
 					'po2json',
 				] : [] ),
 			],

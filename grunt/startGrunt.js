@@ -43,7 +43,7 @@ const startGrunt = grunt => {
 		'grunt-git',
 		'grunt-notify',
 		'grunt-po2json',
-		'grunt-potomo',
+		'@eater/grunt-po2mo',
 		'grunt-string-replace',
 		'grunt-wp-readme-to-markdown',
 		'gruntify-eslint',
