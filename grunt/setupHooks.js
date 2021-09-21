@@ -26,7 +26,7 @@ const setupHooks = grunt => {
 				return acc;
 			}
 		}, {} );
-		newEntry = grunt.hooks.applyFilters( 'onWatchChangeJs.files', newEntry );
+		newEntry = grunt.hooks.applyFilters( 'onWatchChangeJs.files', newEntry, { changedFiles } );
 		// update config
 		grunt.config( 'webpack.all.entry', newEntry );
 	};
