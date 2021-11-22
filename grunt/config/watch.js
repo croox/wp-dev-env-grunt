@@ -120,13 +120,13 @@ const watch = grunt => {
 			],
 		},
 
-		potomo_pos: {
+		po2mo_pos: {
 			files: [
 				'src/languages/**/*.po',
 				...grunt.option( 'pattern' ).exclude,
 			],
 			tasks: [
-				'potomo',
+				'po2mo',
 				'po2json',
 				...afterTasks,
 			],

@@ -13,7 +13,7 @@ Hooked function can be added to `./grunt/hooked/`. Each file should export a fun
 Example for `jcchavezs/cmb2-conditionals` support. `./grunt/hooked/addCmb2ConditionalsCopyTask.js`:
 
     const addCmb2ConditionalsCopyTask = grunt => {
-    
+
         // Add 'copy:vendor_cmb2_conditionals' to config copy
         grunt.hooks.addFilter( 'config.copy', 'myprefix.config.copy', config => {
             const newConfig = {
@@ -30,7 +30,7 @@ Example for `jcchavezs/cmb2-conditionals` support. `./grunt/hooked/addCmb2Condit
             };
             return newConfig;
         }, 10 );
-    
+
         // Run 'copy:vendor_cmb2_conditionals' on priority 20
         grunt.hooks.addFilter( 'tasks.build.tasks', 'myprefix.tasks.build.tasks', tasks => {
             const newTasks = [
@@ -39,9 +39,9 @@ Example for `jcchavezs/cmb2-conditionals` support. `./grunt/hooked/addCmb2Condit
             ];
             return newTasks;
         }, 20 );
-    
+
     }
-    
+
     module.exports = addCmb2ConditionalsCopyTask;
 
 See `node_modules/wp-dev-env-grunt/grunt/hooked/addDefaultBuildTasks.js` for hooked default tasks and their priority.
@@ -50,7 +50,6 @@ See `node_modules/wp-dev-env-grunt/grunt/hooked/addDefaultBuildTasks.js` for hoo
 
     startGrunt.option.pattern
     replacements.replacements
-    config.browserify
     config.clean
     config.cleanempty
     config.compress
@@ -68,11 +67,12 @@ See `node_modules/wp-dev-env-grunt/grunt/hooked/addDefaultBuildTasks.js` for hoo
     config.pot.handles
     config.pot.options
     config.pot                        handles        options
-    config.potomo
+    config.po2mo
     config.sass
     config.string-replace
     config.uglify
     config.watch
+    config.weppack
     config.wp_readme_to_markdown
     tasks.build.tasks
     tasks.dist.tasks
