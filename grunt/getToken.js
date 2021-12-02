@@ -2,6 +2,7 @@ const chalk = require('chalk');
 const path = require('path');
 const keytar = require('keytar')
 const process = require('process');
+const { prompt } = require('enquirer');
 const {
 	get,
 } = require('lodash');
@@ -12,13 +13,14 @@ const getToken = ( grunt ) => {
 
 	const modulePkg = grunt.file.readJSON( path.resolve( 'node_modules/wp-dev-env-grunt/package.json' ) );
 
-	return new Promise( ( resolve, reject ) => {
+	return new Promise( resolve => {
 
 		keytar.getPassword( modulePkg.name, get( getRepoHost( grunt ), ['name'] ) )
 		.then( token => resolve( token ) )
 		.catch( e => {
-			grunt.log.writeln( 'getToken ....  what happend? Did you kill the process?' );
-			grunt.log.writeln( e );
+			// grunt.log.writeln( 'getToken ....  what happend? Did you kill the process?' );
+			// grunt.log.writeln( e );
+			grunt.log.writeln( "Couldn't load token" );
 
 			if ( 'linux' === process.platform ) {
 				grunt.log.writeln( '' );
@@ -29,7 +31,19 @@ const getToken = ( grunt ) => {
 				grunt.log.writeln( '	Arch Linux: ' + chalk.underline('sudo pacman -S libsecret') );
 			}
 
-			reject( e );
+			// Allow to type in token, if keytar fails (eg on wsl2)
+			prompt( [ {
+				type: 'password',
+				name: 'tokenAlt',
+				message: chalk.yellow( 'Type in token instead' ),
+			} ] ).then( ( {
+				tokenAlt,
+			} ) => {
+				resolve( tokenAlt );
+			} ).catch( e => {
+				resolve( false );	// dont'reject
+			} );
+
 		} );
 
 	} );

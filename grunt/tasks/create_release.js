@@ -31,45 +31,6 @@ const create_release = grunt => {
 			done.apply();
 		};
 
-		const setTokenFirst = message => {
-			grunt.log.writeln( '' );
-			new Promise( ( resolve, reject ) => prompt( [
-				{
-					type: 'select',
-					name: 'shouldSetToken',
-					message: message,
-					choices: [
-						{
-							name: 'setToken',
-							message: 'set token',
-						},
-						{
-							name: 'skipTask',
-							message: 'skip task',
-						},
-					],
-
-			} ] ).then( answers => {
-
-				switch( answers.shouldSetToken ) {
-					case 'setToken':
-						grunt.task.run( [
-							'set_token',
-							'create_release',
-						] );
-						done.apply();
-						break;
-					case 'skipTask':
-						skipTask();
-						break;
-				}
-			} ).catch( e => {
-				grunt.log.writeln( 'create_release ... shouldSetToken ....  what happend? Did you kill the process?' );
-				grunt.log.writeln( e );
-				reject( done.apply() );
-			} ) );
-		};
-
 		const createRelease = token => {
 
 			axios( {
@@ -121,16 +82,9 @@ const create_release = grunt => {
 
 			} )
 			.catch( e => {
-				if ( 401 === e.response.status ) {
-					setTokenFirst(
-						chalk.red( '401 Bad credentials ' ) +
-						'Token for ' + chalk.yellow( repoHostName ) + ' is wrong!'
-					);
-				} else {
-					grunt.log.writeln( 'create_release ....  what happend? Did you kill the process?' );
-					grunt.log.writeln( e );
-					done.apply();
-				}
+				grunt.log.writeln( 'create_release ....  what happend? Did you kill the process?' );
+				grunt.log.writeln( e );
+				done.apply();
 			} );
 		};
 
@@ -170,10 +124,8 @@ const create_release = grunt => {
 							skipTask();
 						}
 					} );
-
-				} else {
-					setTokenFirst( 'No token is set for ' + chalk.yellow( repoHostName ) );
 				}
+				skipTask();
 			} );
 
 		} else {
