@@ -93,7 +93,6 @@ const create_release = grunt => {
 
 			getToken( grunt ).then( token => {
 				if ( token && isString( token ) ) {
-
 					axios(  {
 						url: [
 							'https://api.github.com',
@@ -124,8 +123,9 @@ const create_release = grunt => {
 							skipTask();
 						}
 					} );
+				} else {
+					skipTask();
 				}
-				skipTask();
 			} );
 
 		} else {
