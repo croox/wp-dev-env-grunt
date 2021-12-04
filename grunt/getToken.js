@@ -1,5 +1,6 @@
 const chalk = require('chalk');
 const path = require('path');
+const isWsl = require('is-wsl');
 const keytar = require('keytar')
 const process = require('process');
 const { prompt } = require('enquirer');
@@ -22,13 +23,14 @@ const getToken = ( grunt ) => {
 			// grunt.log.writeln( e );
 			grunt.log.writeln( "Couldn't load token" );
 
-			if ( 'linux' === process.platform ) {
-				grunt.log.writeln( '' );
+			if ( 'linux' === process.platform && ! isWsl ) {
 				grunt.log.writeln( 'Is ' + chalk.underline('libsecret') + ' installed?' );
 				grunt.log.writeln( 'On linux the package ' + chalk.underline('libsecret') + ' is required to work with the system\'s keychain.' );
 				grunt.log.writeln( '	Debian/Ubuntu: ' + chalk.underline('sudo apt-get install libsecret-1-dev') );
 				grunt.log.writeln( '	Red Hat-based: ' + chalk.underline('sudo yum install libsecret-devel') );
 				grunt.log.writeln( '	Arch Linux: ' + chalk.underline('sudo pacman -S libsecret') );
+			} else if ( isWsl )  {
+				grunt.log.writeln( 'Can not access credentials on wsl' );
 			}
 
 			// Allow to type in token, if keytar fails (eg on wsl2)

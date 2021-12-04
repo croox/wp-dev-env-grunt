@@ -51,6 +51,7 @@
 		"grunt-webpack": "^4.0.3",
 		"grunt-wp-readme-to-markdown": "^2.1.0",
 		"gruntify-eslint": "^5.0.0",
+		"is-wsl": "^2.2.0",
 		"keep-a-changelog": "^0.10.4",
 		"keytar": "^7.7.0",
 		"load-grunt-tasks": "^5.1.0",
