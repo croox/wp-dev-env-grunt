@@ -63,7 +63,7 @@
 		"rsyncwrapper": "^3.0.1",
 		"sass": "^1.49.9",
 		"semver": "^7.3.5",
-		"simple-git": "^2.48.0",
+		"simple-git": "^3.3.0",
 		"style-loader": "^3.3.1",
 		"time-grunt": "^2.0.0",
 		"webpack": "^5.70.0",
