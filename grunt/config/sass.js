@@ -1,5 +1,5 @@
 const path = require('path');
-const nodesass = require('node-sass');
+const dartsass = require('sass');
 const magicImporter = require('node-sass-magic-importer');
 
 const sass = grunt => {
@@ -8,7 +8,7 @@ const sass = grunt => {
 
 	const options = {
 		includePaths: [],
-		implementation: nodesass,
+		implementation: dartsass,
 		importer: magicImporter( {
 			disableImportOnce: true,
 		} ),
