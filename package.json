@@ -1,6 +1,6 @@
 {
 	"name": "wp-dev-env-grunt",
-	"version": "1.3.1",
+	"version": "1.4.0",
 	"description": "Grunt environment for WordPress Plugins/Themes/Childthemes generated with generator-wp-dev-env",
 	"main": "index.js",
 	"homepage": "https://github.com/croox/wp-dev-env-grunt",
