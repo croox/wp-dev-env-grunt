@@ -52,7 +52,7 @@
 		"grunt-wp-readme-to-markdown": "^2.1.0",
 		"gruntify-eslint": "^5.0.0",
 		"is-wsl": "^2.2.0",
-		"keep-a-changelog": "^0.10.4",
+		"keep-a-changelog": "^2.0.1",
 		"keytar": "^7.9.0",
 		"load-grunt-tasks": "^5.1.0",
 		"lodash": "^4.17.21",
