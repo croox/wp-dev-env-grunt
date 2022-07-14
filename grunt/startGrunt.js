@@ -81,6 +81,8 @@ const startGrunt = grunt => {
 			'!scss/**/*',
 			'!languages',
 			'!languages/**/*',
+			'!html_snapshots',
+			'!html_snapshots/**/*',
 			...( 'theme' === pkg.projectType ? [
 				'!templates',
 				'!templates/**/*',
