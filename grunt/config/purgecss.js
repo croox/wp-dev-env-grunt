@@ -1,5 +1,36 @@
 const purgecssWordpress = require( 'purgecss-with-wordpress' );
 
+/**
+ * Fix purgecssWordpress
+ * strings and regex patterns should be separated, and not all inside safeList.
+ */
+const purgecssWordpressFixed = [...purgecssWordpress.safelist].reduce( ( acc, entry ) => {
+    switch( typeof entry ) {
+        case 'string':
+            return {
+                ...acc,
+                safelist: [
+                    ...acc.safelist,
+                    entry,
+                ],
+            };
+            break;
+        case 'object':
+            return {
+                ...acc,
+                safelistPatterns: [
+                    ...acc.safelistPatterns,
+                    entry,
+                ],
+            };
+            break;
+        default:
+            return acc;
+    }
+}, {
+    safelist: [],
+    safelistPatterns: [],
+} );
 
 const purgecss = grunt => {
 
@@ -17,12 +48,12 @@ const purgecss = grunt => {
                 ],
 
 				safelist: [
-					...purgecssWordpress.safelist,
+					...purgecssWordpressFixed.safelist,
 					// 'red',
 					// 'blue',
 				],
 				safelistPatterns: [
-					...purgecssWordpress.safelistPatterns,
+					...purgecssWordpressFixed.safelistPatterns,
 					// /^red/,
 					// /blue$/,
 				],
