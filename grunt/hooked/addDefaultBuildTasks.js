@@ -68,13 +68,14 @@ const addDefaultBuildTasks = grunt => {
 			priority: 60,
 			tasks: [
 				'sass:all',
+				'css_properties',
 				...( grunt.option( 'purge' ) ? [
 					'purgecss:destination',
+					'string-replace:fix_css',
 				] : [] ),
 				...( grunt.option( 'compress' ) ? [
 					'css_purge:destination',
 				] : [] ),
-				'css_properties',
 			],
 		},
 		{

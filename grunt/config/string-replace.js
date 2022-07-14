@@ -89,6 +89,26 @@ const stringReplace = grunt => {
 			}],
 		},
 
+		fix_css: {
+			options: {
+				replacements: [
+					// Fix missing semicolon after purgecss task, for files where only @charset rule remains.
+					{
+						pattern: /(@charset\s+?['"][a-zA-z0-9-]+?['"](?!\s*;))/g,
+						replacement: '$1;',
+					}
+				],
+			},
+			files: [ {
+				expand: true,
+				cwd: grunt.option( 'destination' ) + '/css',
+				src: [
+					'**/*.css',
+				],
+				dest: grunt.option( 'destination' ) + '/css',
+			} ],
+		},
+
 		// // will replace string and update file in source. should only run on dist
 		// // usefull for phpDoc "@since wde_replace_version"
 		// inc_update_src: {
