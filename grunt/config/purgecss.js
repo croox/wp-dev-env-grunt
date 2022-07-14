@@ -1,3 +1,5 @@
+const purgecssWordpress = require( 'purgecss-with-wordpress' );
+
 
 const purgecss = grunt => {
 
@@ -14,6 +16,16 @@ const purgecss = grunt => {
                     './src/js/**/*',
                 ],
 
+				safelist: [
+					...purgecssWordpress.safelist,
+					// 'red',
+					// 'blue',
+				],
+				safelistPatterns: [
+					...purgecssWordpress.safelistPatterns,
+					// /^red/,
+					// /blue$/,
+				],
 
 				// ??? TODO !!!
 

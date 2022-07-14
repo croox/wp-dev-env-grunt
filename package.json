@@ -61,6 +61,7 @@
 		"parent-dirs": "^1.0.0",
 		"play-sound": "^1.1.5",
 		"po2json": "^1.0.0-beta-3",
+		"purgecss-with-wordpress": "^4.1.0",
 		"rsyncwrapper": "^3.0.1",
 		"sass": "^1.53.0",
 		"semver": "^7.3.7",
