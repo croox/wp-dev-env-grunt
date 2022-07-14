@@ -40,6 +40,7 @@ const startGrunt = grunt => {
 		'grunt-sass',
 		'grunt-contrib-watch',
 		'grunt-css-purge',
+		'grunt-purgecss',
 		'grunt-git',
 		'grunt-notify',
 		'grunt-po2json',
@@ -89,6 +90,9 @@ const startGrunt = grunt => {
 	// set option compress
 	if ( ! isBoolean( grunt.option( 'compress' ) ) )
 		grunt.option( 'compress', false );
+	// set option purge
+	if ( ! isBoolean( grunt.option( 'purge' ) ) )
+		grunt.option( 'purge', false );
 	// set option destination
 	if ( ! ['test_build','dist/trunk'].includes( grunt.option( 'destination' ) ) )
 		grunt.option( 'destination', 'test_build' );

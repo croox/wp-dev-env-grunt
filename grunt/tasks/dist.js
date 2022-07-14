@@ -176,6 +176,7 @@ const dist = grunt => {
 
 			grunt.option( 'destination', 'dist/trunk' );
 			grunt.option( 'compress', true );
+			grunt.option( 'purge', true );
 			grunt.option( 'current_release_branch', gitStatus.current );
 			setOptionChangelog( grunt, changelog );
 			grunt.option( 'commitmsg', newRelease.toString().replace( '\n', '\n\n' ) );
