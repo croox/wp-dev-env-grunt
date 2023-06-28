@@ -7,6 +7,21 @@ const webpackConfig = grunt => {
 
 	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
 
+	const babelOptions = {
+		plugins: [
+			[
+				path.resolve( 'node_modules/@emotion/babel-plugin' ), {}
+			],
+			[
+				path.resolve( 'node_modules/babel-plugin-inline-json-import' ), {}
+			],
+		],
+		presets: [
+			path.resolve( 'node_modules/@babel/preset-env' ),
+			path.resolve( 'node_modules/@wordpress/babel-preset-default' ),
+		],
+	};
+
 	const config = grunt.hooks.applyFilters( 'config.webpack', {
 		options: {
 			stats: {
@@ -33,17 +48,21 @@ const webpackConfig = grunt => {
 					'process.env.NODE_ENV': JSON.stringify( grunt.option( 'compress' ) ? 'production' : 'development' ),
 				} ),
 				new ESLintPlugin( {
-					parser: '@babel/eslint-parser',	// ??? does this work
+					overrideConfig: {
+						parser: '@babel/eslint-parser',
+						parserOptions: {
+							ecmaVersion: 'latest',
+							sourceType: 'module',
+							requireConfigFile: false,
+							ecmaFeatures: {
+								jsx: true,
+								experimentalObjectRestSpread: true,
+							},
+							babelOptions,
+						},
+					},
 					extensions: ['js','jsx'],
 					useEslintrc: false,
-					parserOptions: {
-						ecmaVersion: "latest",
-						sourceType: "module",
-						ecmaFeatures: {
-							jsx: true,
-							experimentalObjectRestSpread: true,
-						}
-					},
 				} ),
 			],
 			module: {
@@ -54,29 +73,21 @@ const webpackConfig = grunt => {
 						use: {
 							loader: path.resolve( 'node_modules/babel-loader' ),
 							options: {
+								...babelOptions,
 								plugins: [
+									...babelOptions.plugins,
 									[
 										path.resolve( 'node_modules/@wordpress/babel-plugin-makepot' ), {
 											output: path.resolve( 'src/languages/' + pkg.funcPrefix + '-LOCALE-handle.pot' )
 										}
 									],
-									[
-										path.resolve( 'node_modules/@emotion/babel-plugin' ), {}
-									],
-									[
-										path.resolve( 'node_modules/babel-plugin-inline-json-import' ), {}
-									],
-								],
-								presets: [
-									path.resolve( 'node_modules/@babel/preset-env' ),
-									path.resolve( 'node_modules/@wordpress/babel-preset-default' ),
 								],
 							},
 						},
 					},
 					{
 						test: /\.css$/i,
-						use: ["style-loader", "css-loader"],
+						use: ['style-loader', 'css-loader'],
 					},
 				],
 			},
