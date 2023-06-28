@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 const glob = require('glob');
 
@@ -30,6 +31,19 @@ const webpackConfig = grunt => {
 			plugins: [
 				new webpack.DefinePlugin( {
 					'process.env.NODE_ENV': JSON.stringify( grunt.option( 'compress' ) ? 'production' : 'development' ),
+				} ),
+				new ESLintPlugin( {
+					parser: '@babel/eslint-parser',	// ??? does this work
+					extensions: ['js','jsx'],
+					useEslintrc: false,
+					parserOptions: {
+						ecmaVersion: "latest",
+						sourceType: "module",
+						ecmaFeatures: {
+							jsx: true,
+							experimentalObjectRestSpread: true,
+						}
+					},
 				} ),
 			],
 			module: {

@@ -201,7 +201,6 @@ const dist = grunt => {
 					'gitrm:ondist',
 				] : [] ),
 				'build',
-				'eslint:dest',
 				'purgecss:destination',
 				'string-replace:fix_css',
 				'css_purge:destination',

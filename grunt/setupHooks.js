@@ -8,10 +8,6 @@ const setupHooks = grunt => {
 	let changed = [];
 
 	const updateConfigJs = ( changedFiles, ext ) => {
-		// update eslint config, if js files changed
-		if ( 'js' === ext.split('.').reverse()[0] ) {
-			grunt.config( 'eslint.src.src', changedFiles.map( file => 'src/js/' + file ) );
-		}
 		// find entry files.
 		let newEntry = [...changedFiles].reduce( ( acc, filepath ) => {
 			let filename = -1 !== filepath.indexOf('/')
@@ -33,11 +29,6 @@ const setupHooks = grunt => {
 
 	const updateConfigScss = ( changedFiles, ext, configKey ) => {
 		const config = grunt.config( configKey )[0];
-
-		// update eslint config, if js files changed
-		if ( 'js' === ext.split('.').reverse()[0] ) {
-			grunt.config( 'eslint.src.src', changedFiles.map( file => 'src/js/' + file ) );
-		}
 		// find entry files (~files in cwd root), and write them to our config object
 		config.src = [];
 		[...changedFiles].map( filepath => {

@@ -57,7 +57,6 @@ See `node_modules/wp-dev-env-grunt/grunt/hooked/addDefaultBuildTasks.js` for hoo
     config.copy
     config.create_autoloader
     config.css_purge
-    config.eslint
     config.gitadd
     config.gitcommit
     config.gittag

@@ -47,7 +47,6 @@ const startGrunt = grunt => {
 		'@eater/grunt-po2mo',
 		'grunt-string-replace',
 		'grunt-wp-readme-to-markdown',
-		'gruntify-eslint',
 	].map( module => grunt.loadNpmTasks( module ) );
 	grunt.loadTasks( path.join( path.resolve( 'node_modules' ), 'wp-dev-env-grunt', 'grunt', 'tasks' ) );
 	grunt.hooks.doAction( 'startGrunt.loadTasks.after' );

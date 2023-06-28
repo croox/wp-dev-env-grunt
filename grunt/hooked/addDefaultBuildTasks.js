@@ -51,7 +51,6 @@ const addDefaultBuildTasks = grunt => {
 		{
 			priority: 40,
 			tasks: [
-				'eslint:src',
 				'webpack',
 			],
 		},

@@ -114,7 +114,6 @@ const watch = grunt => {
 				...grunt.option( 'pattern' ).exclude,
 			],
 			tasks: [
-				'eslint:src',
 				'webpack:all',
 				...afterTasks,
 			],
