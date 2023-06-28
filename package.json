@@ -24,7 +24,7 @@
 		"@eater/grunt-po2mo": "^1.0.0",
 		"@emotion/babel-plugin": "^11.11.0",
 		"@wordpress/babel-plugin-makepot": "^5.20.0",
-		"@wordpress/babel-preset-default": "^6.17.0",
+		"@wordpress/babel-preset-default": "^7.20.0",
 		"@wordpress/hooks": "^3.36.0",
 		"axios": "^1.4.0",
 		"babel-loader": "^9.1.2",
