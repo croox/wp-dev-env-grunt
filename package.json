@@ -36,7 +36,7 @@
 		"eslint": "^8.43.0",
 		"eslint-webpack-plugin": "^4.0.1",
 		"gh-release-assets": "^2.0.1",
-		"glob": "^8.1.0",
+		"glob": "^10.3.1",
 		"grunt": "^1.6.1",
 		"grunt-cleanempty": "^1.0.4",
 		"grunt-contrib-clean": "^2.0.1",
