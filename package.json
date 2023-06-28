@@ -27,7 +27,7 @@
 		"@wordpress/babel-preset-default": "^6.17.0",
 		"@wordpress/hooks": "^3.36.0",
 		"axios": "^0.27.2",
-		"babel-loader": "^8.3.0",
+		"babel-loader": "^9.1.2",
 		"babel-plugin-inline-json-import": "^0.3.2",
 		"chalk": "^4.1.2",
 		"colornames": "^1.1.1",
