@@ -26,7 +26,7 @@
 		"@wordpress/babel-plugin-makepot": "^4.4.0",
 		"@wordpress/babel-preset-default": "^6.17.0",
 		"@wordpress/hooks": "^3.36.0",
-		"axios": "^0.27.2",
+		"axios": "^1.4.0",
 		"babel-loader": "^9.1.2",
 		"babel-plugin-inline-json-import": "^0.3.2",
 		"chalk": "^4.1.2",
