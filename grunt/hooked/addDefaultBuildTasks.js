@@ -51,7 +51,7 @@ const addDefaultBuildTasks = grunt => {
 		{
 			priority: 40,
 			tasks: [
-				'webpack',
+				// 'webpack',	// add task for each entry file. see ../config/webpack.js
 			],
 		},
 		{
