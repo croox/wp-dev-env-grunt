@@ -33,6 +33,7 @@
 		"colornames": "^1.1.1",
 		"css-loader": "^6.8.1",
 		"enquirer": "^2.3.6",
+		"eslint": "^8.43.0",
 		"eslint-webpack-plugin": "^4.0.1",
 		"gh-release-assets": "^2.0.1",
 		"glob": "^8.1.0",
