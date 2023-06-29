@@ -1,5 +1,5 @@
 const path = require('path');
-const getParentDirs = require('parent-dirs');
+const getParentDirs = require('../esm/parent-dirs');
 const {
 	get,
 	isString,
