@@ -26,7 +26,6 @@ const po2mo = grunt => {
 					return acc;
 				}, [] ),
 				dest: grunt.option( 'destination' ) + '/languages',
-				ext: '.mo',
 				nonull: true
 			}]
 		},
