@@ -1,7 +1,7 @@
 const { prompt } = require('enquirer');
 const chalk = require('chalk');
 const path = require('path');
-const keytar = require('keytar')
+const isWsl = require('is-wsl');
 
 const {
 	get,
@@ -27,6 +27,15 @@ const setToken = ( grunt ) => {
 		} );
 	}
 
+	if ( isWsl ) {
+		return new Promise( ( resolve, reject ) => () => {
+			grunt.log.writeln( 'Can not access credentials on wsl. Unable to set token.' );
+			grunt.log.writeln( 'In case a token is required, you will be asked to type it in then.' );
+			grunt.log.writeln( '' );
+			reject();
+		} );
+	}
+
 	grunt.log.writeln( '' );
 
 	if ( get( repoHost, ['help','accessToken'] ) ) {
@@ -35,6 +44,7 @@ const setToken = ( grunt ) => {
 		grunt.log.writeln( '' );
 	}
 
+	const keytar = require('keytar');
 	return new Promise( ( resolve, reject ) => prompt( [ {
 		type: 'password',
 		name: 'password',

@@ -1,7 +1,6 @@
 const chalk = require('chalk');
 const path = require('path');
 const isWsl = require('is-wsl');
-const keytar = require('keytar')
 const process = require('process');
 const { prompt } = require('enquirer');
 const {
@@ -16,28 +15,12 @@ const getToken = ( grunt ) => {
 
 	return new Promise( resolve => {
 
-		keytar.getPassword( modulePkg.name, get( getRepoHost( grunt ), ['name'] ) )
-		.then( token => resolve( token ) )
-		.catch( e => {
-			// grunt.log.writeln( 'getToken ....  what happend? Did you kill the process?' );
-			// grunt.log.writeln( e );
-			grunt.log.writeln( "Couldn't load token" );
-
-			if ( 'linux' === process.platform && ! isWsl ) {
-				grunt.log.writeln( 'Is ' + chalk.underline('libsecret') + ' installed?' );
-				grunt.log.writeln( 'On linux the package ' + chalk.underline('libsecret') + ' is required to work with the system\'s keychain.' );
-				grunt.log.writeln( '	Debian/Ubuntu: ' + chalk.underline('sudo apt-get install libsecret-1-dev') );
-				grunt.log.writeln( '	Red Hat-based: ' + chalk.underline('sudo yum install libsecret-devel') );
-				grunt.log.writeln( '	Arch Linux: ' + chalk.underline('sudo pacman -S libsecret') );
-			} else if ( isWsl )  {
-				grunt.log.writeln( 'Can not access credentials on wsl' );
-			}
-
-			// Allow to type in token, if keytar fails (eg on wsl2)
+		// Allow to type in token, if keytar fails (eg on wsl2)
+		const fallbackPrompt = () => {
 			prompt( [ {
 				type: 'password',
 				name: 'tokenAlt',
-				message: chalk.yellow( 'Type in token instead' ),
+				message: chalk.yellow( 'Token' ),
 			} ] ).then( ( {
 				tokenAlt,
 			} ) => {
@@ -45,8 +28,29 @@ const getToken = ( grunt ) => {
 			} ).catch( e => {
 				resolve( false );	// dont'reject
 			} );
+		}
 
-		} );
+		if ( isWsl ) {
+			grunt.log.writeln( 'Can not access credentials on wsl. Type in token instead' );
+			fallbackPrompt();
+		} else {
+			const keytar = require('keytar');
+			keytar.getPassword( modulePkg.name, get( getRepoHost( grunt ), ['name'] ) )
+			.then( token => resolve( token ) )
+			.catch( e => {
+				grunt.log.writeln( "Couldn't load token" );
+				grunt.log.writeln( e );
+				if ( 'linux' === process.platform ) {
+					grunt.log.writeln( 'Is ' + chalk.underline('libsecret') + ' installed?' );
+					grunt.log.writeln( 'On linux the package ' + chalk.underline('libsecret') + ' is required to work with the system\'s keychain.' );
+					grunt.log.writeln( '	Debian/Ubuntu: ' + chalk.underline('sudo apt-get install libsecret-1-dev') );
+					grunt.log.writeln( '	Red Hat-based: ' + chalk.underline('sudo yum install libsecret-devel') );
+					grunt.log.writeln( '	Arch Linux: ' + chalk.underline('sudo pacman -S libsecret') );
+				}
+				fallbackPrompt();
+			} );
+
+		}
 
 	} );
 
