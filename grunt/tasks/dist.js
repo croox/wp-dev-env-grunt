@@ -208,7 +208,7 @@ const dist = grunt => {
 				'compress:trunk_to_releases',
 				'gitadd:ondist',
 				'gitcommit:ondist',
-				'gitcheckout:master',
+				'gitcheckout:main',
 				'git_merge:current_release_branch',
 				'gittag:ondist',
 				'sound:fanfare',

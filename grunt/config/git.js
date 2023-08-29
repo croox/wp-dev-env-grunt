@@ -72,9 +72,9 @@ const git = grunt => {
 	grunt.config( 'gitpush', configGitpush ) ;
 
 	const configGitcheckout = grunt.hooks.applyFilters( 'config.gitcheckout', {
-		master: {
+		main: {
 			options: {
-				branch: 'master',
+				branch: pkg.branchMainName || 'master', // if branch is not defined in package.json, then it should be master.
 			}
 		},
 		develop: {
