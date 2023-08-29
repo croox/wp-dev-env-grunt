@@ -63,8 +63,11 @@ const make_html_snapshots = grunt => {
                     grunt.log.writeln();
 
                     resolve();
-                } ).catch( () => {
+                } ).catch( res => {
                     grunt.log.writeln( 'Not able to fetch from ' + url );
+                    if ( res.cause ) {
+                        grunt.log.error( res.cause );
+                    }
                     resolve( false );
                 } )
 			} );
