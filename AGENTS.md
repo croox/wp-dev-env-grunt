@@ -19,6 +19,7 @@ Release order: bump version here ("Bump version X.Y.Z" commits), then update the
 - `npm install` in this repo **must** use `--legacy-peer-deps` — `@eater/grunt-po2mo@1.0.0` peers `grunt ~1.0.4` vs root `^1.6.1` (pre-existing conflict). Same for `npm audit fix --legacy-peer-deps`.
 - `npm test` is a stub (`??? test missing`) — no real tests. Verify JS with `node --check <file>`.
 - No lint/build tooling for this repo itself; grunt tasks run inside generated projects (`grunt` lists them).
+- Release tokens (`set_token`/`remove_token`/`getToken`) are managed by the `gh` CLI or the `GITHUB_TOKEN` env — no keytar/keychain anymore.
 
 ## Known accepted-risk npm advisories
 
