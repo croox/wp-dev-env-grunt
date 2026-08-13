@@ -6,6 +6,7 @@
 # include some root files
 !.eslintrc.json
 !.gitignore
+!AGENTS.md
 !README.md
 !index.js
 !package.json
