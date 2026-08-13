@@ -1,50 +1,49 @@
 const path = require('path');
-const {
-	startCase,
-	kebabCase,
-} = require('lodash');
+const { startCase, kebabCase } = require('lodash');
 
-const create_autoloader = grunt => {
+const create_autoloader = (grunt) => {
+	const pkg = grunt.file.readJSON(path.resolve('package.json'));
 
-	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
+	grunt.registerMultiTask('create_autoloader', 'sub task: used by build', function () {
+		const project_class = pkg.funcPrefix + '\\' + startCase(kebabCase(pkg.funcPrefix));
 
-	grunt.registerMultiTask( 'create_autoloader', 'sub task: used by build', function() {
+		const dirs = grunt.file
+			.expand(
+				{
+					expand: true,
+					cwd: 'src/' + this.target,
+				},
+				['*', ...grunt.option('pattern').exclude]
+			)
+			.filter((dir) => path.extname(dir) === '');
 
-		const project_class = pkg.funcPrefix + '\\' + startCase( kebabCase( pkg.funcPrefix ) );
+		[...dirs].forEach((dir) => {
+			const files = grunt.file.expand(
+				{
+					expand: true,
+					cwd: 'src/' + this.target + '/' + dir,
+				},
+				['*.php', ...grunt.option('pattern').exclude]
+			);
 
-		const dirs = grunt.file.expand( {
-			expand: true,
-			cwd: 'src/' + this.target,
-		}, [
-			'*',
-			...grunt.option( 'pattern' ).exclude,
-		] ).filter( dir => '' === path.extname( dir ) );
-
-
-		[...dirs].map( dir => {
-
-			const files = grunt.file.expand( {
-				expand: true,
-				cwd: 'src/' + this.target + '/' + dir,
-			}, [
-				'*.php',
-				...grunt.option( 'pattern' ).exclude,
-			] );
-
-			const fileName = path.join( grunt.option( 'destination' ), this.target, pkg.funcPrefix + '_include_' + dir + '.php' );
+			const fileName = path.join(
+				grunt.option('destination'),
+				this.target,
+				pkg.funcPrefix + '_include_' + dir + '.php'
+			);
 
 			const fileContent = [
 				'<?php',
 				'',
 				'// If this file is called directly, abort.',
-				'if ( ! defined( \'WPINC\' ) ) {',
+				"if ( ! defined( 'WPINC' ) ) {",
 				'	die;',
 				'}',
 				'',
 				'function ' + pkg.funcPrefix + '_include_' + dir + '() {',
 				'',
 				'	$paths = array(',
-				...[...files].map( file => '		\'' + this.target + '/' + dir + '/' + file + '\','),
+				...[...files].map((file) => "		'" + this.target + '/' + dir + '/' + file + "',"),
 				'	);',
 				'',
 				'	if ( count( $paths ) > 0 ) {',
@@ -56,14 +55,11 @@ const create_autoloader = grunt => {
 				'}',
 				'',
 				'?>',
-			].join( '\n' );
+			].join('\n');
 
-			grunt.file.write( fileName, fileContent );
-
-		} );
-
+			grunt.file.write(fileName, fileContent);
+		});
 	});
-
 };
 
 module.exports = create_autoloader;

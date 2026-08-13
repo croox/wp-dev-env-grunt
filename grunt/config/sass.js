@@ -2,23 +2,22 @@ const path = require('path');
 const dartsass = require('sass');
 const magicImporter = require('node-sass-magic-importer');
 
-const sass = grunt => {
-
-	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
+const sass = (grunt) => {
+	const pkg = grunt.file.readJSON(path.resolve('package.json'));
 
 	const options = {
 		includePaths: [],
 		implementation: dartsass,
-		importer: magicImporter( {
+		importer: magicImporter({
 			disableImportOnce: true,
-		} ),
+		}),
 
 		outputStyle: 'expanded',
 		sourceMap: true,
 		sourceComments: true,
 
-		...( grunt.option( 'compress' ) && {
-			// outputStyle: 'compressed',
+		...(grunt.option('compress') && {
+			// OutputStyle: 'compressed',
 			// Can't use 'compressed' here.
 			// Because exits with `Fatal error: argument `$color` of `darken($color, $amount)` must be a color`
 			// for things like this `color-yiq( darken( color( #{ $_color } ), 5% ) );`.
@@ -27,30 +26,26 @@ const sass = grunt => {
 
 			sourceMap: false,
 			sourceComments: false,
-		} ),
+		}),
 	};
 
-	const config = grunt.hooks.applyFilters( 'config.sass', {
-		options: options,
+	const config = grunt.hooks.applyFilters('config.sass', {
+		options,
 
 		all: {
-			files: [{
-				expand: true,
-				cwd: 'src/scss',
-				src: [
-					'*.scss',
-					...( 'theme' === pkg.projectType ? ['!style.scss'] : [] ),
-				],
-				dest: grunt.option( 'destination' ) + '/css',
-				ext: '.min.css',
-			}],
+			files: [
+				{
+					expand: true,
+					cwd: 'src/scss',
+					src: ['*.scss', ...(pkg.projectType === 'theme' ? ['!style.scss'] : [])],
+					dest: grunt.option('destination') + '/css',
+					ext: '.min.css',
+				},
+			],
 		},
+	});
 
-	} );
-
-	grunt.config( 'sass', config );
-
+	grunt.config('sass', config);
 };
 
 module.exports = sass;
-

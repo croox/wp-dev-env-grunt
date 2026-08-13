@@ -1,10 +1,9 @@
 'use strict';
 
-const createWpHooks  = require('@wordpress/hooks').createHooks;
+const createWpHooks = require('@wordpress/hooks').createHooks;
 
-const createHooks = grunt => {
+const createHooks = (grunt) => {
 	grunt.hooks = createWpHooks();
 };
 
 module.exports = createHooks;
-

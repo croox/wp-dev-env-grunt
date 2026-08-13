@@ -1,9 +1,5 @@
-
 const consts = {
-	supportedHosts: [
-		'GitHub',
-	],
+	supportedHosts: ['GitHub'],
 };
-
 
 module.exports = consts;

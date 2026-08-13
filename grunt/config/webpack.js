@@ -3,51 +3,49 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 const glob = require('glob');
 
-const webpackConfig = grunt => {
-
-	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
+const webpackConfig = (grunt) => {
+	const pkg = grunt.file.readJSON(path.resolve('package.json'));
 
 	const babelOptions = {
 		plugins: [
-			[
-				path.resolve( 'node_modules/@emotion/babel-plugin' ), {}
-			],
-			[
-				path.resolve( 'node_modules/babel-plugin-inline-json-import' ), {}
-			],
+			[path.resolve('node_modules/@emotion/babel-plugin'), {}],
+			[path.resolve('node_modules/babel-plugin-inline-json-import'), {}],
 		],
 		presets: [
-			path.resolve( 'node_modules/@babel/preset-env' ),
-			path.resolve( 'node_modules/@wordpress/babel-preset-default' ),
+			path.resolve('node_modules/@babel/preset-env'),
+			path.resolve('node_modules/@wordpress/babel-preset-default'),
 		],
 	};
 
-	const config = grunt.hooks.applyFilters( 'config.webpack', {
+	const config = grunt.hooks.applyFilters('config.webpack', {
 		options: {
 			stats: {
 				errorDetails: true,
 			},
 		},
 		all: {
-			mode: grunt.option( 'compress' ) ? 'production' : 'development',
-			entry: glob.sync(
-				path.resolve() + '/src/js/*.js?(x)'
-			).reduce( ( acc, filename ) => ( {
-				...acc,
-				[path.basename( filename, path.extname( filename ) )]: path.resolve( filename ),
-			} ), {} ),
+			mode: grunt.option('compress') ? 'production' : 'development',
+			entry: glob.sync(path.resolve() + '/src/js/*.js?(x)').reduce(
+				(acc, filename) => ({
+					...acc,
+					[path.basename(filename, path.extname(filename))]: path.resolve(filename),
+				}),
+				{}
+			),
 			output: {
-				path: path.resolve( grunt.option( 'destination' ) + '/js' ),
+				path: path.resolve(grunt.option('destination') + '/js'),
 				filename: '[name].min.js',
 			},
 			externals: {
-				...( pkg['shim'] ? pkg['shim'] : {} ),
+				...(pkg.shim ? pkg.shim : {}),
 			},
 			plugins: [
-				new webpack.DefinePlugin( {
-					'process.env.NODE_ENV': JSON.stringify( grunt.option( 'compress' ) ? 'production' : 'development' ),
-				} ),
-				new ESLintPlugin( {
+				new webpack.DefinePlugin({
+					'process.env.NODE_ENV': JSON.stringify(
+						grunt.option('compress') ? 'production' : 'development'
+					),
+				}),
+				new ESLintPlugin({
 					overrideConfig: {
 						parser: '@babel/eslint-parser',
 						parserOptions: {
@@ -61,9 +59,9 @@ const webpackConfig = grunt => {
 							babelOptions,
 						},
 					},
-					extensions: ['js','jsx'],
+					extensions: ['js', 'jsx'],
 					useEslintrc: false,
-				} ),
+				}),
 			],
 			module: {
 				rules: [
@@ -71,15 +69,22 @@ const webpackConfig = grunt => {
 						test: /\.m?jsx?$/,
 						exclude: /node_modules/,
 						use: {
-							loader: path.resolve( 'node_modules/babel-loader' ),
+							loader: path.resolve('node_modules/babel-loader'),
 							options: {
 								...babelOptions,
 								plugins: [
 									...babelOptions.plugins,
 									[
-										path.resolve( 'node_modules/@wordpress/babel-plugin-makepot' ), {
-											output: path.resolve( 'src/languages/' + pkg.funcPrefix + '-LOCALE-handle.pot' )
-										}
+										path.resolve(
+											'node_modules/@wordpress/babel-plugin-makepot'
+										),
+										{
+											output: path.resolve(
+												'src/languages/' +
+													pkg.funcPrefix +
+													'-LOCALE-handle.pot'
+											),
+										},
 									],
 								],
 							},
@@ -92,9 +97,9 @@ const webpackConfig = grunt => {
 				],
 			},
 		},
-	} );
+	});
 
-	grunt.config( 'webpack', config );
+	grunt.config('webpack', config);
 };
 
 module.exports = webpackConfig;

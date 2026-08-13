@@ -4,9 +4,12 @@
 /*
 
 # include some root files
+!.eslintrc.js
 !.eslintrc.json
 !.gitignore
 !AGENTS.md
+!.prettierrc
+!.prettierignore
 !README.md
 !index.js
 !package.json

@@ -1,11 +1,6 @@
 const path = require('path');
 const getParentDirs = require('parent-dirs');
-const {
-	get,
-	isString,
-	find,
-	omit,
-} = require( 'lodash' );
+const { get, isString, find, omit } = require('lodash');
 
 const getRepoInfo = require('./getRepoInfo');
 const isCygwin = require('./isCygwin');
@@ -58,53 +53,53 @@ const isCygwin = require('./isCygwin');
  *		}
  *	]
  */
-const getWpInstalls = ( grunt, installSlugs ) => {
+const getWpInstalls = (grunt, installSlugs) => {
 	const errorMsg = 'unknown wp_install slug';
 
-	if ( ! installSlugs )
-		grunt.warn( errorMsg );
+	if (!installSlugs) grunt.warn(errorMsg);
 
-	if ( isString( installSlugs ) )
-		installSlugs = installSlugs.split(',');
+	if (isString(installSlugs)) installSlugs = installSlugs.split(',');
 
-	const pkg = grunt.file.readJSON( 'package.json' );
+	const pkg = grunt.file.readJSON('package.json');
 	const parentDirs = getParentDirs();
 
 	const filenames = [
 		'wde_wp_installs.json',
-		'wp_installs.json',		// legacy support
+		'wp_installs.json', // Legacy support
 	];
 
-	const repoName = get( getRepoInfo( grunt ), ['name'], pkg.name );
+	const repoName = get(getRepoInfo(grunt), ['name'], pkg.name);
 
 	const foundInstalls = [];
-	[...installSlugs].map( installSlug => {
-		parentDirs.map( dir => filenames.map( filename => {
-			const filepath = path.join( dir, filename );
-			if ( grunt.file.exists( filepath ) ) {
-				const installs = grunt.file.readJSON( filepath );
-				const installPath  = get( installs, [installSlug,pkg.projectType + 's'], false );
-				if ( installPath && ! find( foundInstalls, { name: installSlug } ) ) {
-					foundInstalls.push( {
-						...omit( get( installs, [installSlug] ), ['plugins','themes'] ),
-						name: installSlug,
-						dest: installPath.includes( '@' )
-							? path.join( installPath, repoName )		// ??? missing test remote path and cygwin
-							: isCygwin()
-								? path.resolve( installPath, repoName )
-									.replace( /\\/g, '/' )
-									.replace( /^\S:\//g, '/' )
-								: path.resolve( installPath, repoName ),
-					} );
+	[...installSlugs].forEach((installSlug) => {
+		parentDirs.forEach((dir) =>
+			filenames.forEach((filename) => {
+				const filepath = path.join(dir, filename);
+				if (grunt.file.exists(filepath)) {
+					const installs = grunt.file.readJSON(filepath);
+					const installPath = get(installs, [installSlug, pkg.projectType + 's'], false);
+					if (installPath && !find(foundInstalls, { name: installSlug })) {
+						foundInstalls.push({
+							...omit(get(installs, [installSlug]), ['plugins', 'themes']),
+							name: installSlug,
+							dest: installPath.includes('@')
+								? path.join(installPath, repoName) // ??? missing test remote path and cygwin
+								: isCygwin()
+									? path
+											.resolve(installPath, repoName)
+											.replace(/\\/g, '/')
+											.replace(/^\S:\//g, '/')
+									: path.resolve(installPath, repoName),
+						});
+					}
 				}
-			}
-		} ) );
-	} );
+			})
+		);
+	});
 
-	if ( foundInstalls.length === 0 )
-		grunt.warn( errorMsg );
+	if (foundInstalls.length === 0) grunt.warn(errorMsg);
 
 	return foundInstalls;
-}
+};
 
 module.exports = getWpInstalls;

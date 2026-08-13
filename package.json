@@ -74,7 +74,14 @@
 		"wp-pot": "^1.10.2"
 	},
 	"scripts": {
-		"test": "console.log('??? test missing')"
+		"test": "console.log('??? test missing')",
+		"lint": "eslint .",
+		"format": "prettier . --write"
+	},
+	"devDependencies": {
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-config-xo": "^0.40.0",
+		"prettier": "^3.8.3"
 	},
 	"repository": {
 		"type": "git",

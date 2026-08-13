@@ -2,18 +2,15 @@ const player = require('play-sound')();
 
 const path = require('path');
 
-const sound = grunt => {
-
-	grunt.registerTask( 'sound', 'sub task to notify tralala', function( key ){
-
-		if ( grunt.option( 'sound' ) === false || grunt.option( 'silent' ) === true ) {
-			grunt.option( 'silent', false );
+const sound = (grunt) => {
+	grunt.registerTask('sound', 'sub task to notify tralala', (key) => {
+		if (grunt.option('sound') === false || grunt.option('silent') === true) {
+			grunt.option('silent', false);
 			return;
 		}
 
 		let file;
-		switch( key ) {
-
+		switch (key) {
 			case 'blob':
 				file = 'Mouth_Special_00.mp3';
 				break;
@@ -30,19 +27,20 @@ const sound = grunt => {
 				file = 'sfx_sounds_falling2.mp3';
 				break;
 
+			default:
+				break;
 		}
 
-		file = grunt.hooks.applyFilters( 'tasks.sound.file', file, key );
+		file = grunt.hooks.applyFilters('tasks.sound.file', file, key);
 
-		const soundsPath = grunt.hooks.applyFilters( 'tasks.sound.soundsPath',
-			path.resolve( 'node_modules/wp-dev-env-grunt/grunt/sounds' ),
+		const soundsPath = grunt.hooks.applyFilters(
+			'tasks.sound.soundsPath',
+			path.resolve('node_modules/wp-dev-env-grunt/grunt/sounds'),
 			key
 		);
 
-		player.play( grunt.hooks.applyFilters( 'tasks.sound.play', path.join( soundsPath, file ), key ) );
-
-	} );
-
+		player.play(grunt.hooks.applyFilters('tasks.sound.play', path.join(soundsPath, file), key));
+	});
 };
 
 module.exports = sound;

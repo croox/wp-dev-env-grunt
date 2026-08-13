@@ -1,58 +1,37 @@
-
 const path = require('path');
 
-const addDefaultBuildTasks = grunt => {
-
-	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
+const addDefaultBuildTasks = (grunt) => {
+	const pkg = grunt.file.readJSON(path.resolve('package.json'));
 
 	[
 		{
 			priority: 5,
-			tasks: [
-				'clean',
-			],
+			tasks: ['clean'],
 		},
 		{
 			priority: 10,
-			tasks: [
-				'composer_dumpAutoload',
-			],
+			tasks: ['composer_dumpAutoload'],
 		},
 		{
 			priority: 15,
-			tasks: [
-				'copy:root',
-				'copy:images',
-				'copy:fonts',
-			],
+			tasks: ['copy:root', 'copy:images', 'copy:fonts'],
 		},
-		// hook copy tasks for vendor dirs on priority 20
+		// Hook copy tasks for vendor dirs on priority 20
 		{
 			priority: 20,
-			tasks: [
-				'copy:vendor_croox_wde_frame',
-				'string-replace:vendor_composer',
-			],
+			tasks: ['copy:vendor_croox_wde_frame', 'string-replace:vendor_composer'],
 		},
 		{
 			priority: 30,
-			tasks: [
-				'string-replace:classes',
-				'string-replace:root',
-				'string-replace:inc_to_dest',
-			],
+			tasks: ['string-replace:classes', 'string-replace:root', 'string-replace:inc_to_dest'],
 		},
 		{
 			priority: 35,
-			tasks: [
-				'create_autoloader:inc',
-			],
+			tasks: ['create_autoloader:inc'],
 		},
 		{
 			priority: 40,
-			tasks: [
-				'webpack',
-			],
+			tasks: ['webpack'],
 		},
 		{
 			priority: 50,
@@ -68,53 +47,53 @@ const addDefaultBuildTasks = grunt => {
 			tasks: [
 				'sass:all',
 				'css_properties',
-				...( grunt.option( 'purge' ) ? [
-					'purgecss:destination',
-					'string-replace:fix_css',
-				] : [] ),
-				...( grunt.option( 'compress' ) ? [
-					'css_purge:destination',
-				] : [] ),
+				...(grunt.option('purge')
+					? ['purgecss:destination', 'string-replace:fix_css']
+					: []),
+				...(grunt.option('compress') ? ['css_purge:destination'] : []),
 			],
 		},
 		{
 			priority: 70,
 			tasks: [
 				'pot',
-				...( grunt.file.expand( { cwd: 'src/languages/' }, ['*.po'] ).length ? [
-					'po2mo',
-					'po2json',
-				] : [] ),
+				...(grunt.file.expand({ cwd: 'src/languages/' }, ['*.po']).length
+					? ['po2mo', 'po2json']
+					: []),
 			],
 		},
 		{
 			priority: 100,
 			tasks: [
-				...( 'plugin' === pkg.projectType ? [
-					'string-replace:plugin_main_file',
-					'concat:plugin_main_file',
-					'concat:dummy_plugin_file',
-				] : [] ),
-				...( 'theme' === pkg.projectType ? [
-					'string-replace:templates',
-					'string-replace:functionsPhp',
-					'concat:style',
-					'concat:dummy_theme_style',
-				] : [] ),
+				...(pkg.projectType === 'plugin'
+					? [
+							'string-replace:plugin_main_file',
+							'concat:plugin_main_file',
+							'concat:dummy_plugin_file',
+						]
+					: []),
+				...(pkg.projectType === 'theme'
+					? [
+							'string-replace:templates',
+							'string-replace:functionsPhp',
+							'concat:style',
+							'concat:dummy_theme_style',
+						]
+					: []),
 			],
 		},
 		{
 			priority: 1000,
-			tasks: [
-				'cleanempty',
-				'sound:bling',
-			],
+			tasks: ['cleanempty', 'sound:bling'],
 		},
-	].map( obj => grunt.hooks.addFilter( 'tasks.build.tasks', 'tasks.build.tasks.' + obj.priority, tasks => [
-		...tasks,
-		...obj.tasks,
-	], obj.priority ) );
-
-}
+	].map((obj) =>
+		grunt.hooks.addFilter(
+			'tasks.build.tasks',
+			'tasks.build.tasks.' + obj.priority,
+			(tasks) => [...tasks, ...obj.tasks],
+			obj.priority
+		)
+	);
+};
 
 module.exports = addDefaultBuildTasks;

@@ -1,92 +1,99 @@
 const path = require('path');
 
-const replacements = require("../replacements");
+const replacements = require('../replacements');
 
-const stringReplace = grunt => {
+const stringReplace = (grunt) => {
+	const pkg = grunt.file.readJSON(path.resolve('package.json'));
 
-	const pkg = grunt.file.readJSON( path.resolve( 'package.json' ) );
-
-	const config = grunt.hooks.applyFilters( 'config.string-replace', {
+	const config = grunt.hooks.applyFilters('config.string-replace', {
 		options: {
-			replacements: replacements.get( grunt ),
+			replacements: replacements.get(grunt),
 		},
 
 		inc_to_dest: {
-			files: [{
-				expand: true,
-				cwd: 'src/inc/',
-				src: ['**/*.php',...grunt.option( 'pattern' ).exclude],
-				dest: grunt.option( 'destination' ) + '/inc/'
-			}],
+			files: [
+				{
+					expand: true,
+					cwd: 'src/inc/',
+					src: ['**/*.php', ...grunt.option('pattern').exclude],
+					dest: grunt.option('destination') + '/inc/',
+				},
+			],
 		},
 
 		classes: {
-			files: [{
-				expand: true,
-				cwd: 'src/classes/',
-				src: ['**/*.php',...grunt.option( 'pattern' ).exclude],
-				dest: grunt.option( 'destination' ) + '/classes/'
-			}],
+			files: [
+				{
+					expand: true,
+					cwd: 'src/classes/',
+					src: ['**/*.php', ...grunt.option('pattern').exclude],
+					dest: grunt.option('destination') + '/classes/',
+				},
+			],
 		},
 
 		root: {
-			files: [{
-				expand: true,
-				cwd: 'src/',
-				src: [
-					'*.php',
-					'**/*.php',
-					...( 'plugin' === pkg.projectType ? [
-						'!' + pkg.name + '.php',
-					] : [] ),
-					...( 'theme' === pkg.projectType ? [
-						'!functions.php',
-					] : [] ),
-					...grunt.option( 'pattern' ).excludeFromRoot,
-					...grunt.option( 'pattern' ).exclude,
-				],
+			files: [
+				{
+					expand: true,
+					cwd: 'src/',
+					src: [
+						'*.php',
+						'**/*.php',
+						...(pkg.projectType === 'plugin' ? ['!' + pkg.name + '.php'] : []),
+						...(pkg.projectType === 'theme' ? ['!functions.php'] : []),
+						...grunt.option('pattern').excludeFromRoot,
+						...grunt.option('pattern').exclude,
+					],
 
-				dest: grunt.option( 'destination' ) + '/'
-			}],
+					dest: grunt.option('destination') + '/',
+				},
+			],
 		},
 
-		...( 'plugin' === pkg.projectType && {
+		...(pkg.projectType === 'plugin' && {
 			plugin_main_file: {
-				files: { [grunt.option( 'destination' ) + '/' + pkg.name + '.php']:'src/' + pkg.name + '.php'}
+				files: {
+					[grunt.option('destination') + '/' + pkg.name + '.php']:
+						'src/' + pkg.name + '.php',
+				},
 			},
-		} ),
+		}),
 
-		...( 'theme' === pkg.projectType && {
+		...(pkg.projectType === 'theme' && {
 			functionsPhp: {
-				files: { [grunt.option( 'destination' ) + '/functions.php']:'src/functions.php' }
+				files: { [grunt.option('destination') + '/functions.php']: 'src/functions.php' },
 			},
 			templates: {
-				files: [{
-					expand: true,
-					cwd: 'src/templates/',
-					src: ['**/*.php',...grunt.option( 'pattern' ).exclude],
-					dest: grunt.option( 'destination' ) + '/',
-				}],
+				files: [
+					{
+						expand: true,
+						cwd: 'src/templates/',
+						src: ['**/*.php', ...grunt.option('pattern').exclude],
+						dest: grunt.option('destination') + '/',
+					},
+				],
 			},
-		} ),
+		}),
 
-		// change the path to classes: remove 'src'
+		// Change the path to classes: remove 'src'
 		vendor_composer: {
 			options: {
-				replacements: [{
-					pattern: /\'\/src\/classes\//g,
-					replacement: '\'\/classes\/',
-				}],
-			},
-			files: [{
-				expand: true,
-				cwd: 'vendor/',
-				src: [
-					'autoload.php',
-					'composer/**/*',
+				replacements: [
+					{
+						pattern: /'\/src\/classes\//g,
+						replacement: "'/classes/",
+					},
 				],
-				dest: grunt.option( 'destination' ) + '/vendor',
-			}],
+			},
+			files: [
+				{
+					expand: true,
+					cwd: 'vendor/',
+					src: ['autoload.php', 'composer/**/*'],
+					dest: grunt.option('destination') + '/vendor',
+				},
+			],
 		},
 
 		fix_css: {
@@ -96,17 +103,17 @@ const stringReplace = grunt => {
 					{
 						pattern: /(@charset\s+?['"][a-zA-z0-9-]+?['"](?!\s*;))/g,
 						replacement: '$1;',
-					}
+					},
 				],
 			},
-			files: [ {
-				expand: true,
-				cwd: grunt.option( 'destination' ) + '/css',
-				src: [
-					'**/*.css',
-				],
-				dest: grunt.option( 'destination' ) + '/css',
-			} ],
+			files: [
+				{
+					expand: true,
+					cwd: grunt.option('destination') + '/css',
+					src: ['**/*.css'],
+					dest: grunt.option('destination') + '/css',
+				},
+			],
 		},
 
 		// // will replace string and update file in source. should only run on dist
@@ -125,10 +132,9 @@ const stringReplace = grunt => {
 		// 		dest: 'src/inc/'
 		// 	}],
 		// },
+	});
 
-	} );
-
-	grunt.config( 'string-replace', config );
-
+	grunt.config('string-replace', config);
 };
+
 module.exports = stringReplace;
