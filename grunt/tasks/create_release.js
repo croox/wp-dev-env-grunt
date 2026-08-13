@@ -73,10 +73,9 @@ const create_release = grunt => {
 						grunt.log.writeln( 'uploadReleaseAsset ....  what happend? Did you kill the process?' );
 						grunt.log.writeln( err );
 						done.apply();
+					} else if ( Array.isArray( assets ) ) {
+						[...assets].map( asset => grunt.log.writeln( chalk.green( 'Successfully uploaded release asset ' ) + chalk.cyan( asset ) ) );
 					}
-
-					[...assets].map( asset => grunt.log.writeln( chalk.green( 'Successfully uploaded release asset ' ) + chalk.cyan( asset ) ) );
-
 					done.apply();
 				} )
 
