@@ -25,7 +25,8 @@ Release order: bump version here ("Bump version X.Y.Z" commits), then update the
 Remaining `npm audit` findings are build-time tooling; fixes need breaking changes or abandoned parents. Accepted and dismissed on GitHub:
 
 - `adm-zip` via `grunt-contrib-compress@2.x` (crafted-zip DoS on our own build output; no fixed 2.x, force would downgrade to 1.6.0).
-- `form-data`, `qs`, `minimatch`, `js-yaml`, `lodash` via legacy grunt plugin chains (`css-purge` → `request`, etc.).
+- `form-data`, `qs`, `tough-cookie` via legacy `css-purge` → `request` chain.
+- `minimatch` via `globule`; `postcss` via `css-node-extract`/`css-selector-extract`; `uuid` via legacy tooling.
 - Note: this repo's lockfile does not reach generated projects — only dependency **ranges** in this `package.json` do (generated projects resolve them at `npm install` time).
 
 ## Structure & extension model
