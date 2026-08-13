@@ -69,16 +69,16 @@ const defaultTask = (grunt) => {
 				? [
 						'',
 						chalk.yellow.bold('Manage Tokens:'),
-						'On macOS the tokens are managed by the Keychain',
-						'on Linux they are managed by the Secret Service API/libsecret,',
-						'and on Windows they are managed by Credential Vault.',
-						'See https://github.com/atom/node-keytar',
+						'Tokens are managed by the ' +
+							chalk.underline('gh') +
+							' CLI (or the GITHUB_TOKEN env).',
+						'See https://cli.github.com',
 						'',
 						chalk.yellow('grunt set_token'),
-						'	Add/replace ' + repoHost.name + ' access token',
+						'	Check the GitHub token',
 						'',
 						chalk.yellow('grunt remove_token'),
-						'	Removes ' + repoHost.name + ' access token',
+						'	Hint how to remove the GitHub token',
 						'',
 					]
 				: []),
